@@ -4,17 +4,24 @@
  */
 package Gui;
 
+import Logic.*;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Robin
  */
 public class MainWindow extends javax.swing.JFrame {
-
+    
+    ManagerFile mfile;
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
+        mfile = new ManagerFile();
     }
 
     /**
@@ -26,33 +33,65 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnautomaton = new javax.swing.JButton();
+        btnanalyze = new javax.swing.JButton();
+        paneltext = new javax.swing.JPanel();
+        scrolltext = new javax.swing.JScrollPane();
+        txtpanel = new javax.swing.JTextPane();
         menubar = new javax.swing.JMenuBar();
         menufile = new javax.swing.JMenu();
-        menuitmsave = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        menuitmsaveas = new javax.swing.JMenuItem();
+        mnopen = new javax.swing.JMenuItem();
+        mnsave = new javax.swing.JMenuItem();
+        mnsaveas = new javax.swing.JMenuItem();
         menuhelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ExRegan USAC");
-        setPreferredSize(new java.awt.Dimension(1280, 600));
+        setBounds(new java.awt.Rectangle(0, 0, 1280, 600));
         setResizable(false);
+
+        btnautomaton.setText("Generar Autómata");
+
+        btnanalyze.setText("Analizar Entrada");
+
+        scrolltext.setViewportView(txtpanel);
+
+        javax.swing.GroupLayout paneltextLayout = new javax.swing.GroupLayout(paneltext);
+        paneltext.setLayout(paneltextLayout);
+        paneltextLayout.setHorizontalGroup(
+            paneltextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrolltext)
+        );
+        paneltextLayout.setVerticalGroup(
+            paneltextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrolltext, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+        );
 
         menufile.setText("Archivo");
 
-        menuitmsave.setText("Abrir");
-        menuitmsave.addActionListener(new java.awt.event.ActionListener() {
+        mnopen.setText("Abrir");
+        mnopen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuitmsaveActionPerformed(evt);
+                mnopenActionPerformed(evt);
             }
         });
-        menufile.add(menuitmsave);
+        menufile.add(mnopen);
 
-        jMenuItem2.setText("Guardar");
-        menufile.add(jMenuItem2);
+        mnsave.setText("Guardar");
+        mnsave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnsaveActionPerformed(evt);
+            }
+        });
+        menufile.add(mnsave);
 
-        menuitmsaveas.setText("Guardar como");
-        menufile.add(menuitmsaveas);
+        mnsaveas.setText("Guardar como");
+        mnsaveas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnsaveasActionPerformed(evt);
+            }
+        });
+        menufile.add(mnsaveas);
 
         menubar.add(menufile);
 
@@ -65,30 +104,107 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1111, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(181, 181, 181)
+                .addComponent(btnautomaton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 378, Short.MAX_VALUE)
+                .addComponent(btnanalyze, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(272, 272, 272))
+            .addComponent(paneltext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 756, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(paneltext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnautomaton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(btnanalyze, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuitmsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitmsaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_menuitmsaveActionPerformed
+    //---------------------METODO PARA ABRIR UN ARCHIVO----------------------------------------
+    private void mnopenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnopenActionPerformed
+        if(!txtpanel.getText().equals("")){
+            if(JOptionPane.showConfirmDialog(this, "¿Desea Guardar el Archivo?", "Guardar", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) save();
+        }
+        open();
+    }//GEN-LAST:event_mnopenActionPerformed
 
+    //---------------------METODO PARA GUARDAR UN ARCHIVO--------------------------------------
+    private void mnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnsaveActionPerformed
+        save();
+    }//GEN-LAST:event_mnsaveActionPerformed
+
+    //---------------------METODO PARA GUARDAR UN ARCHIVO COMO NUEVO---------------------------
+    private void mnsaveasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnsaveasActionPerformed
+        saveas();
+    }//GEN-LAST:event_mnsaveasActionPerformed
+
+    private void open(){
+        txtpanel.setText("");
+        JFileChooser openf = new JFileChooser();
+        openf.setAcceptAllFileFilterUsed(false);
+        openf.setFileFilter(new FileNameExtensionFilter("OLC", "olc", "OLC"));
+        
+        if (openf.showOpenDialog(paneltext) == JFileChooser.APPROVE_OPTION){
+            try {
+                if(mfile.openFile(openf.getSelectedFile())){
+                    for (String line: mfile.getData()){
+                        if (txtpanel.getText().equals("")){
+                            txtpanel.setText(txtpanel.getText()+line);
+                        } else {
+                            txtpanel.setText(txtpanel.getText()+"\n"+line);
+                        }
+                    }
+                    this.setTitle("ExRegan USAC  -  "+mfile.getFile().getName());
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private void saveas(){
+        JFileChooser saveas = new JFileChooser();
+        saveas.setFileFilter(new FileNameExtensionFilter("OLC", "olc", "OLC"));
+        
+        if (saveas.showSaveDialog(paneltext) == JFileChooser.APPROVE_OPTION){
+            if(mfile.saveAsFile(saveas.getSelectedFile(), txtpanel.getText())){
+                this.setTitle("ExRegan USAC  -  "+mfile.getFile().getName());
+            }
+        }
+    }
+    
+    private void save(){
+        // Si el archivo no existe entonces se usa "Guardar Como"
+        if(!mfile.getFile().exists()){
+            saveas();
+        }else{
+            if(mfile.saveFile(txtpanel.getText())){
+                this.setTitle("ExRegan USAC  -  "+mfile.getFile().getName());
+            }
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JButton btnanalyze;
+    private javax.swing.JButton btnautomaton;
     private javax.swing.JMenuBar menubar;
     private javax.swing.JMenu menufile;
     private javax.swing.JMenu menuhelp;
-    private javax.swing.JMenuItem menuitmsave;
-    private javax.swing.JMenuItem menuitmsaveas;
+    private javax.swing.JMenuItem mnopen;
+    private javax.swing.JMenuItem mnsave;
+    private javax.swing.JMenuItem mnsaveas;
+    private javax.swing.JPanel paneltext;
+    private javax.swing.JScrollPane scrolltext;
+    private javax.swing.JTextPane txtpanel;
     // End of variables declaration//GEN-END:variables
 }
