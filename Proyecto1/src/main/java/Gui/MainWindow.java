@@ -33,16 +33,18 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnautomaton = new javax.swing.JButton();
-        btnanalyze = new javax.swing.JButton();
         paneltext = new javax.swing.JPanel();
         scrolltext = new javax.swing.JScrollPane();
         txtpanel = new javax.swing.JTextPane();
         menubar = new javax.swing.JMenuBar();
         menufile = new javax.swing.JMenu();
-        mnopen = new javax.swing.JMenuItem();
-        mnsave = new javax.swing.JMenuItem();
-        mnsaveas = new javax.swing.JMenuItem();
+        opnew = new javax.swing.JMenuItem();
+        opopen = new javax.swing.JMenuItem();
+        opsave = new javax.swing.JMenuItem();
+        opsaveas = new javax.swing.JMenuItem();
+        menuaction = new javax.swing.JMenu();
+        opgenautomaton = new javax.swing.JMenuItem();
+        opanalyze = new javax.swing.JMenuItem();
         menuhelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,50 +52,66 @@ public class MainWindow extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 1280, 600));
         setResizable(false);
 
-        btnautomaton.setText("Generar Autómata");
-
-        btnanalyze.setText("Analizar Entrada");
-
         scrolltext.setViewportView(txtpanel);
 
         javax.swing.GroupLayout paneltextLayout = new javax.swing.GroupLayout(paneltext);
         paneltext.setLayout(paneltextLayout);
         paneltextLayout.setHorizontalGroup(
             paneltextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrolltext)
+            .addComponent(scrolltext, javax.swing.GroupLayout.DEFAULT_SIZE, 1111, Short.MAX_VALUE)
         );
         paneltextLayout.setVerticalGroup(
             paneltextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrolltext, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
+            .addGroup(paneltextLayout.createSequentialGroup()
+                .addComponent(scrolltext, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         menufile.setText("Archivo");
 
-        mnopen.setText("Abrir");
-        mnopen.addActionListener(new java.awt.event.ActionListener() {
+        opnew.setText("Nuevo");
+        opnew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnopenActionPerformed(evt);
+                opnewActionPerformed(evt);
             }
         });
-        menufile.add(mnopen);
+        menufile.add(opnew);
 
-        mnsave.setText("Guardar");
-        mnsave.addActionListener(new java.awt.event.ActionListener() {
+        opopen.setText("Abrir");
+        opopen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnsaveActionPerformed(evt);
+                opopenActionPerformed(evt);
             }
         });
-        menufile.add(mnsave);
+        menufile.add(opopen);
 
-        mnsaveas.setText("Guardar como");
-        mnsaveas.addActionListener(new java.awt.event.ActionListener() {
+        opsave.setText("Guardar");
+        opsave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnsaveasActionPerformed(evt);
+                opsaveActionPerformed(evt);
             }
         });
-        menufile.add(mnsaveas);
+        menufile.add(opsave);
+
+        opsaveas.setText("Guardar como");
+        opsaveas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opsaveasActionPerformed(evt);
+            }
+        });
+        menufile.add(opsaveas);
 
         menubar.add(menufile);
+
+        menuaction.setText("Acciones");
+
+        opgenautomaton.setText("Generar Autómatas");
+        menuaction.add(opgenautomaton);
+
+        opanalyze.setText("Analizar Entrada");
+        menuaction.add(opanalyze);
+
+        menubar.add(menuaction);
 
         menuhelp.setText("Ayuda");
         menubar.add(menuhelp);
@@ -104,48 +122,46 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(181, 181, 181)
-                .addComponent(btnautomaton, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 378, Short.MAX_VALUE)
-                .addComponent(btnanalyze, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(272, 272, 272))
             .addComponent(paneltext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(paneltext, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnautomaton, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(btnanalyze, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //---------------------METODO PARA ABRIR UN ARCHIVO----------------------------------------
-    private void mnopenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnopenActionPerformed
+    private void opopenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opopenActionPerformed
+        open();
+    }//GEN-LAST:event_opopenActionPerformed
+
+    private void opsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opsaveActionPerformed
+        save();
+    }//GEN-LAST:event_opsaveActionPerformed
+
+    private void opsaveasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opsaveasActionPerformed
+        saveas();
+    }//GEN-LAST:event_opsaveasActionPerformed
+
+    private void opnewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opnewActionPerformed
+       newtext();
+    }//GEN-LAST:event_opnewActionPerformed
+
+    //-------------------METODO PARA ABRIR UN NUEVO ARCHIVO------------------------------------   
+    private void newtext(){
         if(!txtpanel.getText().equals("")){
             if(JOptionPane.showConfirmDialog(this, "¿Desea Guardar el Archivo?", "Guardar", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) save();
+            txtpanel.setText("");
+            this.setTitle("ExRegan USAC");
         }
-        open();
-    }//GEN-LAST:event_mnopenActionPerformed
-
-    //---------------------METODO PARA GUARDAR UN ARCHIVO--------------------------------------
-    private void mnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnsaveActionPerformed
-        save();
-    }//GEN-LAST:event_mnsaveActionPerformed
-
-    //---------------------METODO PARA GUARDAR UN ARCHIVO COMO NUEVO---------------------------
-    private void mnsaveasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnsaveasActionPerformed
-        saveas();
-    }//GEN-LAST:event_mnsaveasActionPerformed
-
+    }
+    
+    //---------------------METODO PARA ABRIR UN ARCHIVO----------------------------------------    
     private void open(){
-        txtpanel.setText("");
+        newtext();
         JFileChooser openf = new JFileChooser();
         openf.setAcceptAllFileFilterUsed(false);
         openf.setFileFilter(new FileNameExtensionFilter("OLC", "olc", "OLC"));
@@ -168,6 +184,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
+    //---------------------METODO PARA GUARDAR UN ARCHIVO COMO NUEVO---------------------------
     private void saveas(){
         JFileChooser saveas = new JFileChooser();
         saveas.setFileFilter(new FileNameExtensionFilter("OLC", "olc", "OLC"));
@@ -179,6 +196,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
+    //---------------------METODO PARA GUARDAR UN ARCHIVO--------------------------------------
     private void save(){
         // Si el archivo no existe entonces se usa "Guardar Como"
         if(!mfile.getFile().exists()){
@@ -195,14 +213,16 @@ public class MainWindow extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnanalyze;
-    private javax.swing.JButton btnautomaton;
+    private javax.swing.JMenu menuaction;
     private javax.swing.JMenuBar menubar;
     private javax.swing.JMenu menufile;
     private javax.swing.JMenu menuhelp;
-    private javax.swing.JMenuItem mnopen;
-    private javax.swing.JMenuItem mnsave;
-    private javax.swing.JMenuItem mnsaveas;
+    private javax.swing.JMenuItem opanalyze;
+    private javax.swing.JMenuItem opgenautomaton;
+    private javax.swing.JMenuItem opnew;
+    private javax.swing.JMenuItem opopen;
+    private javax.swing.JMenuItem opsave;
+    private javax.swing.JMenuItem opsaveas;
     private javax.swing.JPanel paneltext;
     private javax.swing.JScrollPane scrolltext;
     private javax.swing.JTextPane txtpanel;
