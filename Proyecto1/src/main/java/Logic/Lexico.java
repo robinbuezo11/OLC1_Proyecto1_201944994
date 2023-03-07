@@ -623,7 +623,7 @@ public class Lexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { System.out.println("Caracter no esperado, ERROR LEXICO " + yytext());
+            { Gui.MainWindow.txtconsole.setText("\nCaracter no esperado, ERROR LEXICO " + yytext());
             } 
             // fall through
           case 10: break;

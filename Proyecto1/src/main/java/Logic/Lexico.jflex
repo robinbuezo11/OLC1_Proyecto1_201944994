@@ -29,4 +29,4 @@ import java_cup.runtime.*;
 
 [\n\r\t ]+ {}
 
-. {System.out.println("Caracter no esperado, ERROR LEXICO " + yytext());}
+. {Gui.MainWindow.txtconsole.setText("\nCaracter no esperado, ERROR LEXICO " + yytext());}

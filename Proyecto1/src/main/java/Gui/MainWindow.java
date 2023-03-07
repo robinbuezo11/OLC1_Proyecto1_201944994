@@ -5,6 +5,7 @@
 package Gui;
 
 import Logic.*;
+import java.io.StringReader;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -120,6 +121,11 @@ public class MainWindow extends javax.swing.JFrame {
         menuaction.add(opgenautomaton);
 
         opanalyze.setText("Analizar Entrada");
+        opanalyze.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opanalyzeActionPerformed(evt);
+            }
+        });
         menuaction.add(opanalyze);
 
         menubar.add(menuaction);
@@ -164,6 +170,10 @@ public class MainWindow extends javax.swing.JFrame {
     private void opgenautomatonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opgenautomatonActionPerformed
         generateAutomatons();
     }//GEN-LAST:event_opgenautomatonActionPerformed
+
+    private void opanalyzeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opanalyzeActionPerformed
+        analyze();
+    }//GEN-LAST:event_opanalyzeActionPerformed
 
     //-------------------METODO PARA ABRIR UN NUEVO ARCHIVO------------------------------------   
     private void newText(){
@@ -237,6 +247,19 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
+    //------------------------METODO PARA ANALIZAR ENTRADAS------------------------------------
+    private void analyze(){
+        try{
+            String data = txtpanel.getText();
+            Logic.parser parse;
+            parse = new Logic.parser(new Logic.Lexico(new StringReader(data)));
+            
+            parse.parse();
+        }catch(Exception e){
+            txtconsole.setText(e.toString());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -255,7 +278,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel paneltext;
     private javax.swing.JScrollPane scrollconsole;
     private javax.swing.JScrollPane scrolltext;
-    private javax.swing.JTextPane txtconsole;
+    public static javax.swing.JTextPane txtconsole;
     private javax.swing.JTextPane txtpanel;
     // End of variables declaration//GEN-END:variables
 }
