@@ -1,0 +1,29 @@
+package Logic;
+import java_cup.runtime.*;
+
+parser code{:
+    public Calc calc = new Calc();
+:}
+
+terminal TOKEN_PUSH,TOKEN_ADD,TOKEN_SUB,TOKEN_DIV,TOKEN_MULT,TOKEN_PRINT;
+
+terminal String TOKEN_NUMBER;
+
+non terminal Inicio, Lista, Elemento;
+
+
+Inicio ::= Lista{: :};
+
+Inicio ::= Lista Elemento
+        | Elemento;
+
+Elemento ::= TOKEN_ADD{:parser.calc.add();:}
+        | TOKEN_SUB{:parser.calc.sub();:}
+        | TOKEN_DIV{:parser.calc.div();:}
+        | TOKEN_MULT{:parser.calc.mult();:}
+        | TOKEN_PRINT{:parser.calc.print();:}
+        | TOKEN_PUSH TOKEN_NUMBER: n 
+            {:
+                Integer number = Integer.parseInt(n);
+                parser.calc.push(number);
+            :};

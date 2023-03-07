@@ -36,6 +36,8 @@ public class MainWindow extends javax.swing.JFrame {
         paneltext = new javax.swing.JPanel();
         scrolltext = new javax.swing.JScrollPane();
         txtpanel = new javax.swing.JTextPane();
+        scrollconsole = new javax.swing.JScrollPane();
+        txtconsole = new javax.swing.JTextPane();
         menubar = new javax.swing.JMenuBar();
         menufile = new javax.swing.JMenu();
         opnew = new javax.swing.JMenuItem();
@@ -54,17 +56,21 @@ public class MainWindow extends javax.swing.JFrame {
 
         scrolltext.setViewportView(txtpanel);
 
+        scrollconsole.setViewportView(txtconsole);
+
         javax.swing.GroupLayout paneltextLayout = new javax.swing.GroupLayout(paneltext);
         paneltext.setLayout(paneltextLayout);
         paneltextLayout.setHorizontalGroup(
             paneltextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(scrolltext, javax.swing.GroupLayout.DEFAULT_SIZE, 1111, Short.MAX_VALUE)
+            .addComponent(scrollconsole)
         );
         paneltextLayout.setVerticalGroup(
             paneltextLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(paneltextLayout.createSequentialGroup()
-                .addComponent(scrolltext, javax.swing.GroupLayout.PREFERRED_SIZE, 756, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(scrolltext, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
+                .addComponent(scrollconsole, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
         );
 
         menufile.setText("Archivo");
@@ -106,6 +112,11 @@ public class MainWindow extends javax.swing.JFrame {
         menuaction.setText("Acciones");
 
         opgenautomaton.setText("Generar Autómatas");
+        opgenautomaton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opgenautomatonActionPerformed(evt);
+            }
+        });
         menuaction.add(opgenautomaton);
 
         opanalyze.setText("Analizar Entrada");
@@ -147,11 +158,15 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_opsaveasActionPerformed
 
     private void opnewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opnewActionPerformed
-       newtext();
+       newText();
     }//GEN-LAST:event_opnewActionPerformed
 
+    private void opgenautomatonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opgenautomatonActionPerformed
+        generateAutomatons();
+    }//GEN-LAST:event_opgenautomatonActionPerformed
+
     //-------------------METODO PARA ABRIR UN NUEVO ARCHIVO------------------------------------   
-    private void newtext(){
+    private void newText(){
         if(!txtpanel.getText().equals("")){
             if(JOptionPane.showConfirmDialog(this, "¿Desea Guardar el Archivo?", "Guardar", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) save();
             txtpanel.setText("");
@@ -161,7 +176,7 @@ public class MainWindow extends javax.swing.JFrame {
     
     //---------------------METODO PARA ABRIR UN ARCHIVO----------------------------------------    
     private void open(){
-        newtext();
+        newText();
         JFileChooser openf = new JFileChooser();
         openf.setAcceptAllFileFilterUsed(false);
         openf.setFileFilter(new FileNameExtensionFilter("OLC", "olc", "OLC"));
@@ -208,6 +223,20 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
+    //------------------------METODO PARA GENERAR AUTOMATAS------------------------------------
+    private void generateAutomatons(){
+        try{
+            String path = "src/main/java/Logic/";
+            String opcFlex[] = {path + "Lexico.jflex","-d",path};
+            jflex.Main.generate(opcFlex);
+            
+            String opcCup[] = {"-destdir",path,"-parser","parser",path + "Sintactico.cup"};
+            java_cup.Main.main(opcCup);
+        } catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -224,7 +253,9 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem opsave;
     private javax.swing.JMenuItem opsaveas;
     private javax.swing.JPanel paneltext;
+    private javax.swing.JScrollPane scrollconsole;
     private javax.swing.JScrollPane scrolltext;
+    private javax.swing.JTextPane txtconsole;
     private javax.swing.JTextPane txtpanel;
     // End of variables declaration//GEN-END:variables
 }
