@@ -236,7 +236,7 @@ public class MainWindow extends javax.swing.JFrame {
     //------------------------METODO PARA GENERAR AUTOMATAS------------------------------------
     private void generateAutomatons(){
         try{
-            String path = "src/main/java/Logic/";
+            String path = "src/main/java/Analyzers/";
             String opcFlex[] = {path + "Lexico.jflex","-d",path};
             jflex.Main.generate(opcFlex);
             
@@ -251,8 +251,8 @@ public class MainWindow extends javax.swing.JFrame {
     private void analyze(){
         try{
             String data = txtpanel.getText();
-            Logic.parser parse;
-            parse = new Logic.parser(new Logic.Lexico(new StringReader(data)));
+            Analyzers.parser parse;
+            parse = new Analyzers.parser(new Analyzers.Lexico(new StringReader(data)));
             
             parse.parse();
         }catch(Exception e){
