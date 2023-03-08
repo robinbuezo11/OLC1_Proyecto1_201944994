@@ -1,29 +1,100 @@
 package Logic;
 import java_cup.runtime.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 parser code{:
+    public static int contID=1;
+    public static Nodo raiz;
     public Calc calc = new Calc();
+
+    public static void graficarArbol(Nodo act, String nombre){
+        
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try{
+            fichero = new FileWriter("src/main/java/Arboles/"+nombre+".dot");
+            pw = new PrintWriter(fichero);
+            pw.println("digraph G{");
+            pw.println("rankdir=UD");
+            pw.println("node[shape=circle]");
+            pw.println("concentrate=true");
+            pw.println(act.getCodigoInterno());
+            pw.println("}");
+        }catch(Exception e){
+            Gui.MainWindow.txtconsole.setText(e.toString());
+        }finally{
+            try{
+                if (fichero!=null){
+                    fichero.close();
+                }
+            }catch(Exception ex){
+                Gui.MainWindow.txtconsole.setText(ex.toString());
+            }
+        }
+
+        try{
+            //direccion del compilador de Graphviz
+            String grapPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+            //direccion del .dot
+            String filePath = "src/main/java/Arboles/"+nombre+".dot";
+            //direccion de la imagen a crear
+            String imgPath = "src/main/java/Arboles/"+nombre+".jpg";
+            //conversion
+            String tParam = "-Tjpg";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = grapPath;
+            cmd[1] = tParam;
+            cmd[2] = filePath;
+            cmd[3] = tOParam;
+            cmd[4] = imgPath;
+
+            Runtime rt = Runtime.getRuntime();
+
+            rt.exec(cmd);
+        }catch(Exception e){
+            Gui.MainWindow.txtconsole.setText(e.toString());
+        }
+    }
 :}
 
-terminal TOKEN_PUSH,TOKEN_ADD,TOKEN_SUB,TOKEN_DIV,TOKEN_MULT,TOKEN_PRINT;
+terminal String TOKEN_SUMA,TOKEN_RESTA,TOKEN_DIV,TOKEN_MULT,TOKEN_NUMBER;
 
-terminal String TOKEN_NUMBER;
+non terminal Nodo Inicio, Expresion;
 
-non terminal Inicio, Lista, Elemento;
+precedence left TOKEN_SUMA, TOKEN_RESTA;
+precedence left TOKEN_MULT, TOKEN_DIV;
 
+Inicio ::= Expresion: a{:
+                parser.raiz=a;
+                graficarArbol(a,"operaciones");
+            :};
 
-Inicio ::= Lista{: :};
-
-Inicio ::= Lista Elemento
-        | Elemento;
-
-Elemento ::= TOKEN_ADD{:parser.calc.add();:}
-        | TOKEN_SUB{:parser.calc.sub();:}
-        | TOKEN_DIV{:parser.calc.div();:}
-        | TOKEN_MULT{:parser.calc.mult();:}
-        | TOKEN_PRINT{:parser.calc.print();:}
-        | TOKEN_PUSH TOKEN_NUMBER: n 
-            {:
-                Integer number = Integer.parseInt(n);
-                parser.calc.push(number);
+Expresion ::= Expresion: e1 TOKEN_SUMA Expresion: e2{:
+                Nodo nuevasuma = new Nodo(e1,e2,"+",parser.contID);
+                parser.contID++;
+                RESULT = nuevasuma;
+            :}
+            | Expresion: e1 TOKEN_RESTA Expresion: e2{:
+                Nodo nuevaresta = new Nodo(e1,e2,"-",parser.contID);
+                parser.contID++;
+                RESULT = nuevaresta;
+            :}
+            | Expresion: e1 TOKEN_MULT Expresion: e2{:
+                Nodo nuevamult = new Nodo(e1,e2,"*",parser.contID);
+                parser.contID++;
+                RESULT = nuevamult;
+            :}
+            | Expresion: e1 TOKEN_DIV Expresion: e2{:
+                Nodo nuevadiv = new Nodo(e1,e2,"/",parser.contID);
+                parser.contID++;
+                RESULT = nuevadiv;
+            :}
+            | TOKEN_NUMBER: n{:
+                Nodo nuevoentero = new Nodo(null,null,n,parser.contID);
+                parser.contID++;
+                RESULT = nuevoentero;
             :};

@@ -20,12 +20,10 @@ import java_cup.runtime.*;
 %%
 
 [0-9]+ {return new Symbol(sym.TOKEN_NUMBER, yytext());}
-"push" {return new Symbol(sym.TOKEN_PUSH, yytext());}
-"add" {return new Symbol(sym.TOKEN_ADD, yytext());}
-"sub" {return new Symbol(sym.TOKEN_SUB, yytext());}
-"div" {return new Symbol(sym.TOKEN_DIV, yytext());}
-"mult" {return new Symbol(sym.TOKEN_MULT, yytext());}
-"print" {return new Symbol(sym.TOKEN_PRINT, yytext());}
+"+" {return new Symbol(sym.TOKEN_SUMA, yytext());}
+"-" {return new Symbol(sym.TOKEN_RESTA, yytext());}
+"/" {return new Symbol(sym.TOKEN_DIV, yytext());}
+"*" {return new Symbol(sym.TOKEN_MULT, yytext());}
 
 [\n\r\t ]+ {}
 

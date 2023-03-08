@@ -8,24 +8,20 @@ package Logic;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int TOKEN_NUMBER = 8;
-  public static final int TOKEN_SUB = 4;
-  public static final int TOKEN_DIV = 5;
-  public static final int EOF = 0;
-  public static final int TOKEN_PRINT = 7;
-  public static final int TOKEN_MULT = 6;
   public static final int error = 1;
-  public static final int TOKEN_ADD = 3;
-  public static final int TOKEN_PUSH = 2;
+  public static final int TOKEN_DIV = 4;
+  public static final int TOKEN_MULT = 5;
+  public static final int TOKEN_NUMBER = 6;
+  public static final int TOKEN_RESTA = 3;
+  public static final int TOKEN_SUMA = 2;
+  public static final int EOF = 0;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "TOKEN_PUSH",
-  "TOKEN_ADD",
-  "TOKEN_SUB",
+  "TOKEN_SUMA",
+  "TOKEN_RESTA",
   "TOKEN_DIV",
   "TOKEN_MULT",
-  "TOKEN_PRINT",
   "TOKEN_NUMBER"
   };
 }

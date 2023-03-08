@@ -19,9 +19,9 @@ public class Calc {
     
     public void print(){
         try{
-            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "\n" + pila.pop());
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + pila.pop());
         } catch(Exception e){
-            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "\nError al imprimir");
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "Error al imprimir\n");
         }
     }
     
@@ -33,7 +33,7 @@ public class Calc {
         try{
             pila.push(pila.pop()/pila.pop());
         } catch(Exception e){
-            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "\nError en división");
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "Error en división\n");
         }
     }
     
@@ -41,7 +41,7 @@ public class Calc {
         try{
             pila.push(pila.pop()*pila.pop());
         } catch(Exception e){
-            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "\nError en multiplicación");
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "Error en multiplicación\n");
         }
     }
     
@@ -49,7 +49,7 @@ public class Calc {
         try{
             pila.push(pila.pop()+pila.pop());
         } catch(Exception e){
-            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "\nError en suma");
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "Error en suma");
         }
     }
     
@@ -57,7 +57,7 @@ public class Calc {
         try{
             pila.push(pila.pop()-pila.pop());
         } catch(Exception e){
-            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "\nError en resta");
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText() + "Error en resta\n");
         }
     }
 }
