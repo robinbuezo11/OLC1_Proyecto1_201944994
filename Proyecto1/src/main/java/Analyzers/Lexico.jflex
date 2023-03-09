@@ -33,6 +33,8 @@ sub = "-"
 mult = "*"
 question = "?"
 greather = ">"
+colon = ":"
+accent = "~"
 
 commentl=("//".*\n)|("//".*\r)
 comments=("<""!"[^\!]*"!"">")
@@ -43,6 +45,8 @@ specialSetER={specialSymb}
 
 id = {letters}({letters}|"_"|{ints})*
 id_setER = "{"[a-zA-Z0-9]+"}"
+
+R_conj = "CONJ"
 
 %init{
     yyline = 1;
@@ -68,6 +72,9 @@ id_setER = "{"[a-zA-Z0-9]+"}"
 {semicolon} {return new Symbol(sym.semicolon,yycolumn,yyline,yytext());}
 {sub} {return new Symbol(sym.sub,yycolumn,yyline,yytext());}
 {greather} {return new Symbol(sym.greather,yycolumn,yyline,yytext());}
+{accent} {return new Symbol(sym.accent,yycolumn,yyline,yytext());}
+{colon} {return new Symbol(sym.colon,yycolumn,yyline,yytext());}
+{R_conj} {return new Symbol(sym.R_conj,yycolumn,yyline,yytext());}
 {cbracke} {return new Symbol(sym.cbracke,yycolumn,yyline,yytext());}
 
 
