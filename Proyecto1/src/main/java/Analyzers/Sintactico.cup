@@ -8,26 +8,30 @@ parser code{:
     public static Node raiz;
 :}
 
-terminal String obracke,cbracke,id,sub,greather,semicolon,id_setER,setER,specialSetER,sum,concat,question,mult,or;
+terminal String obracke,R_conj,colon,id,idset_er,str_er,specialset_er,dash,greather,set_er,concat,plus,asterisk,or,question,semicolon,separator,cbracke;
 
-non terminal String INIT, STATEMENT, FIRSTP;
+non terminal String INIT, FIRSTPART, CONJ, STATEMENTS, STATEMENT;
 non terminal Node NOTATIONS, ER;
 
-precedence left sum, mult, question;
+precedence left plus, asterisk, question;
 precedence left concat, or;
 
 start with INIT;
 
-INIT ::= STATEMENT {:
+INIT ::= obracke FIRSTPART separator STATEMENTS cbracke {:
                 
         :};
 
-STATEMENT ::= obracke FIRSTP cbracke;
-
-FIRSTP ::= FIRSTP ER
+FIRSTPART ::= FIRSTPART CONJ
+        | FIRSTPART ER
+        | CONJ
         | ER;
 
-ER ::= id:a sub greather NOTATIONS:val{:
+CONJ ::= R_conj colon id:a dash greather set_er:b {:
+
+        :};
+
+ER ::= id:a dash greather NOTATIONS:val{:
             String first = idstatus+",";
             String last = idstatus+",";
             String firs;
@@ -84,7 +88,7 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.contID++;
             RESULT = newconcat;
         :}
-        |sum NOTATIONS:a{:
+        |plus NOTATIONS:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
@@ -92,7 +96,7 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.contID++;
             RESULT = newsum;
         :}
-        |mult NOTATIONS:a{:
+        |asterisk NOTATIONS:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
@@ -108,7 +112,7 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.contID++;
             RESULT = newquestion;
         :}
-        |id_setER:val{:
+        |idset_er:val{:
             String first=idstatus+",";
             String last=idstatus+",";
 
@@ -117,7 +121,7 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.contID++;
             RESULT = newidseter;
         :}
-        |specialSetER:val{:
+        |specialset_er:val{:
             String first=idstatus+",";
             String last=idstatus+",";
 
@@ -126,7 +130,7 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.contID++;
             RESULT = newspcset;
         :}
-        |setER:val{:
+/*        |set_er:val{:
             String first=idstatus+",";
             String last=idstatus+",";
 
@@ -134,4 +138,11 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.idstatus++;
             parser.contID++;
             RESULT = newseter;
+        :}*/;
+
+STATEMENTS ::= STATEMENTS STATEMENT
+            | STATEMENT;
+
+STATEMENT ::= id:a colon str_er:b {:
+
         :};

@@ -98,17 +98,17 @@ public class Node {
         if(hizq == null && hder == null){
             etiqueta="nodo"+idcount+"[label=<\n"
                     +"<table border='0' cellborder='1' color='blue' cellspacing='0'>\n"
-                    +"<tr><td>"+voidable+"</td></tr>\n"
+                    +"<tr><td></td><td>"+voidable+"</td><td></td></tr>\n"
                     +"<tr><td>"+first+"</td><td>"+val+"</td><td>"+last+"</td></tr>\n"
-                    +"<tr><td>"+id+"</td></tr>\n"
+                    +"<tr><td></td><td>"+id+"</td><td></td></tr>\n"
                     +"</table>\n"
                     +">];\n";
         }else{
             etiqueta="nodo"+idcount+"[label=<\n"
                     +"<table border='0' cellborder='1' color='blue' cellspacing='0'>\n"
-                    +"<tr><td>"+voidable+"</td></tr>\n"
+                    +"<tr><td></td><td>"+voidable+"</td><td></td></tr>\n"
                     +"<tr><td>"+first+"</td><td>"+val+"</td><td>"+last+"</td></tr>\n"
-                    +"<tr><td>"+id+"</td></tr>\n"
+                    +"<tr><td></td><td>"+id+"</td><td></td></tr>\n"
                     +"</table>\n"
                     +">];\n";
         }

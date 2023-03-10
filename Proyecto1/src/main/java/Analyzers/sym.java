@@ -8,39 +8,47 @@ package Analyzers;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int obracke = 2;
-  public static final int sub = 5;
-  public static final int id = 4;
-  public static final int greather = 6;
-  public static final int setER = 9;
-  public static final int question = 13;
-  public static final int mult = 14;
-  public static final int or = 15;
-  public static final int semicolon = 7;
-  public static final int EOF = 0;
-  public static final int cbracke = 3;
-  public static final int sum = 11;
-  public static final int error = 1;
-  public static final int id_setER = 8;
+  public static final int greather = 10;
+  public static final int asterisk = 14;
+  public static final int separator = 18;
+  public static final int str_er = 7;
+  public static final int idset_er = 6;
+  public static final int set_er = 11;
+  public static final int specialset_er = 8;
   public static final int concat = 12;
-  public static final int specialSetER = 10;
+  public static final int or = 15;
+  public static final int semicolon = 17;
+  public static final int question = 16;
+  public static final int dash = 9;
+  public static final int EOF = 0;
+  public static final int id = 5;
+  public static final int obracke = 2;
+  public static final int error = 1;
+  public static final int plus = 13;
+  public static final int colon = 4;
+  public static final int R_conj = 3;
+  public static final int cbracke = 19;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "obracke",
-  "cbracke",
+  "R_conj",
+  "colon",
   "id",
-  "sub",
+  "idset_er",
+  "str_er",
+  "specialset_er",
+  "dash",
   "greather",
-  "semicolon",
-  "id_setER",
-  "setER",
-  "specialSetER",
-  "sum",
+  "set_er",
   "concat",
+  "plus",
+  "asterisk",
+  "or",
   "question",
-  "mult",
-  "or"
+  "semicolon",
+  "separator",
+  "cbracke"
   };
 }
 
