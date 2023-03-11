@@ -122,5 +122,15 @@ public class Node {
         }
         return etiqueta;
     }
-    
+
+    @Override
+    public String toString() {
+        if (this.hizq == null && this.hder == null){
+            return this.val;
+        }else if (this.hizq == null && this.hder != null){
+            return this.val+this.hder.val;
+        }else {
+            return this.hizq.val + this.val + this.hder.val;
+        }
+    }
 }

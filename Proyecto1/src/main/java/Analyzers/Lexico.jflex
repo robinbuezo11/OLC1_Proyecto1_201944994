@@ -1,5 +1,6 @@
 package Analyzers;
 import java_cup.runtime.*;
+import Gui.*;
 
 %%
 
@@ -16,7 +17,7 @@ import java_cup.runtime.*;
 
 %init}
 
-blanks = [ \t\r\n\f]+ 
+blanks = [ \t\r\n\f]+
 
 R_conj = "CONJ"
 
@@ -39,15 +40,16 @@ colon = ":"
 accent = "~"
 comma = ","
 
-separator = "%%%%"
+separator = "%%"\n"%%"
 
 commentl=("//".*\n)|("//".*\r)
 comments=("<""!"[^\!]*"!"">")
 
 id = {letter}({letter}|"_"|{int})*
-set_er = ((({symb}|{letter}|{int}){accent}({symb}|{letter}|{int}))|({symb}|{letter}|{int})({comma}({symb}|{letter}|{int}))*)
+set_er = ((({symb}|{letter}|{int}){accent}({symb}|{letter}|{int}))|({symb}|{letter}|{int})({comma}({symb}|{letter}|{int}))+)
 idset_er = [\{]{id}[\}]
-str_er = [\"]({symb}|{letter}|{int})*[\"]
+chr_er = "\""({symb}|{letter}|{int})*"\""
+str_er = [\"]({symb}|{letter}|{int}|[ \t\r\n\f])*[\"]
 specialset_er={specialsym}
 
 %init{
@@ -66,6 +68,7 @@ specialset_er={specialsym}
 {colon} {return new Symbol(sym.colon,yycolumn,yyline,yytext());}
 {id} {return new Symbol(sym.id,yycolumn,yyline,yytext());}
 {idset_er} {return new Symbol(sym.idset_er,yycolumn,yyline,yytext());}
+{chr_er} {return new Symbol (sym.chr_er,yycolumn,yyline,yytext());}
 {str_er} {return new Symbol (sym.str_er,yycolumn,yyline,yytext());}
 {specialset_er} {return new Symbol(sym.specialset_er,yycolumn,yyline,yytext());}
 {dash} {return new Symbol(sym.dash,yycolumn,yyline,yytext());}
@@ -82,5 +85,5 @@ specialset_er={specialsym}
 
 
 .   {
-        Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+"\nERROR LEXICO: " + yytext()+" Linea: "+(yyline) + " Columna: "+(yycolumn));
+        MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\nERROR LEXICO: " + yytext()+" Linea: "+(yyline) + " Columna: "+(yycolumn));
     }

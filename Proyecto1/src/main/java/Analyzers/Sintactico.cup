@@ -1,5 +1,6 @@
 package Analyzers;
 import Logic.*;
+import Gui.*;
 import java_cup.runtime.*;
 
 parser code{:
@@ -8,10 +9,10 @@ parser code{:
     public static Node raiz;
 :}
 
-terminal String obracke,R_conj,colon,id,idset_er,str_er,specialset_er,dash,greather,set_er,concat,plus,asterisk,or,question,semicolon,separator,cbracke;
+terminal String obracke,R_conj,colon,id,idset_er,chr_er,str_er,specialset_er,dash,greather,set_er,concat,plus,asterisk,or,question,semicolon,separator,cbracke;
 
-non terminal String INIT, FIRSTPART, CONJ, STATEMENTS, STATEMENT;
-non terminal Node NOTATIONS, ER;
+non terminal String INIT, FIRSTPART, CONJS, CONJ, ERS, STATEMENTS, STATEMENT;
+non terminal Node ER, NOTATION;
 
 precedence left plus, asterisk, question;
 precedence left concat, or;
@@ -22,16 +23,23 @@ INIT ::= obracke FIRSTPART separator STATEMENTS cbracke {:
                 
         :};
 
-FIRSTPART ::= FIRSTPART CONJ
-        | FIRSTPART ER
-        | CONJ
+FIRSTPART ::= CONJS ERS
+            | ERS;
+
+CONJS ::= CONJS CONJ
+        | CONJ;
+
+ERS ::= ERS ER
         | ER;
 
-CONJ ::= R_conj colon id:a dash greather set_er:b {:
+STATEMENTS ::= STATEMENTS STATEMENT
+            | STATEMENT;
 
+CONJ ::= R_conj:a colon:b id:c dash:d greather:e set_er:f semicolon:g {:
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d+e+f+g);
         :};
 
-ER ::= id:a dash greather NOTATIONS:val{:
+ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
             String first = idstatus+",";
             String last = idstatus+",";
             String firs;
@@ -48,9 +56,15 @@ ER ::= id:a dash greather NOTATIONS:val{:
             parser.raiz = newroot;
             ManagerFile.graficarArbol(newroot, a);
             idstatus=1;
-        :}semicolon;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
+        :};
 
-NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
+STATEMENT ::= id:a colon:b str_er:c semicolon:d{:
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
+        :};
+
+NOTATION ::= or NOTATION:a NOTATION:b {:
             String voi;
             if(a.getVoidable()=="A" || b.getVoidable()=="A"){
                 voi="A";
@@ -63,8 +77,9 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             Node newor = new Node(a,b,"|",parser.contID,0,voi,first,last);
             parser.contID++;
             RESULT = newor;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"|"+b.toString());
         :}
-        |concat NOTATIONS:a NOTATIONS:b {:
+        |concat NOTATION:a NOTATION:b {:
             String voi;
             String first;
             String last;
@@ -87,30 +102,34 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             Node newconcat = new Node(a,b,".",parser.contID,0,voi,first,last);
             parser.contID++;
             RESULT = newconcat;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"."+b.toString());
         :}
-        |plus NOTATIONS:a{:
+        |plus NOTATION:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
             Node newsum = new Node(null,a,"+",parser.contID,0,"N",first,last);
             parser.contID++;
             RESULT = newsum;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"+");
         :}
-        |asterisk NOTATIONS:a{:
+        |asterisk NOTATION:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
             Node newmult = new Node(null,a,"*",parser.contID,0,"A",first,last);
             parser.contID++;
             RESULT = newmult;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"*");
         :}
-        |question NOTATIONS:a{:
+        |question NOTATION:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
             Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last);
             parser.contID++;
             RESULT = newquestion;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"?");
         :}
         |idset_er:val{:
             String first=idstatus+",";
@@ -120,6 +139,7 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.idstatus++;
             parser.contID++;
             RESULT = newidseter;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         :}
         |specialset_er:val{:
             String first=idstatus+",";
@@ -129,8 +149,9 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.idstatus++;
             parser.contID++;
             RESULT = newspcset;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         :}
-/*        |set_er:val{:
+        |chr_er:val{:
             String first=idstatus+",";
             String last=idstatus+",";
 
@@ -138,11 +159,6 @@ NOTATIONS ::= or NOTATIONS:a NOTATIONS:b {:
             parser.idstatus++;
             parser.contID++;
             RESULT = newseter;
-        :}*/;
-
-STATEMENTS ::= STATEMENTS STATEMENT
-            | STATEMENT;
-
-STATEMENT ::= id:a colon str_er:b {:
-
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         :};
+

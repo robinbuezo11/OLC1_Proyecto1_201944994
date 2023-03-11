@@ -1,0 +1,77 @@
+digraph G{
+rankdir=UD
+node[shape=circle]
+concentrate=true
+nodo45[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>1,</td><td>.</td><td>4,</td></tr>
+<tr><td></td><td>0</td><td></td></tr>
+</table>
+>];
+nodo43[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>1,</td><td>.</td><td>3,</td></tr>
+<tr><td></td><td>0</td><td></td></tr>
+</table>
+>];
+nodo38[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>1,</td><td>+</td><td>1,</td></tr>
+<tr><td></td><td>0</td><td></td></tr>
+</table>
+>];
+nodo37[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>1,</td><td>digito</td><td>1,</td></tr>
+<tr><td></td><td>1</td><td></td></tr>
+</table>
+>];
+nodo38->nodo37
+nodo43->nodo38
+nodo42[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>2,</td><td>.</td><td>3,</td></tr>
+<tr><td></td><td>0</td><td></td></tr>
+</table>
+>];
+nodo39[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>2,</td><td>abecedarioMinus</td><td>2,</td></tr>
+<tr><td></td><td>2</td><td></td></tr>
+</table>
+>];
+nodo42->nodo39
+nodo41[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>3,</td><td>+</td><td>3,</td></tr>
+<tr><td></td><td>0</td><td></td></tr>
+</table>
+>];
+nodo40[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>3,</td><td>digito</td><td>3,</td></tr>
+<tr><td></td><td>3</td><td></td></tr>
+</table>
+>];
+nodo41->nodo40
+nodo42->nodo41
+nodo43->nodo42
+nodo45->nodo43
+nodo44[label=<
+<table border='0' cellborder='1' color='blue' cellspacing='0'>
+<tr><td></td><td>N</td><td></td></tr>
+<tr><td>4,</td><td>#</td><td>4,</td></tr>
+<tr><td></td><td>4</td><td></td></tr>
+</table>
+>];
+nodo45->nodo44
+
+}

@@ -8,26 +8,27 @@ package Analyzers;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int greather = 10;
-  public static final int asterisk = 14;
-  public static final int separator = 18;
-  public static final int str_er = 7;
+  public static final int greather = 11;
+  public static final int asterisk = 15;
+  public static final int separator = 19;
+  public static final int str_er = 8;
   public static final int idset_er = 6;
-  public static final int set_er = 11;
-  public static final int specialset_er = 8;
-  public static final int concat = 12;
-  public static final int or = 15;
-  public static final int semicolon = 17;
-  public static final int question = 16;
-  public static final int dash = 9;
+  public static final int set_er = 12;
+  public static final int specialset_er = 9;
+  public static final int concat = 13;
+  public static final int or = 16;
+  public static final int semicolon = 18;
+  public static final int question = 17;
+  public static final int dash = 10;
   public static final int EOF = 0;
   public static final int id = 5;
   public static final int obracke = 2;
   public static final int error = 1;
-  public static final int plus = 13;
+  public static final int chr_er = 7;
+  public static final int plus = 14;
   public static final int colon = 4;
   public static final int R_conj = 3;
-  public static final int cbracke = 19;
+  public static final int cbracke = 20;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -36,6 +37,7 @@ public class sym {
   "colon",
   "id",
   "idset_er",
+  "chr_er",
   "str_er",
   "specialset_er",
   "dash",
