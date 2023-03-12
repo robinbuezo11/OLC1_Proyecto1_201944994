@@ -40,16 +40,18 @@ colon = ":"
 accent = "~"
 comma = ","
 
-separator = "%%"\n"%%"
+separator = "%%"[ \t\r\n\f]+"%%"
 
 commentl=("//".*\n)|("//".*\r)
 comments=("<""!"[^\!]*"!"">")
 
+str = [\"]([\!\#\$\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}]|{letter}|{int}|[ \t\r\n\f]|("\\""n" | "\\""\'"))*[\"]
+
 id = {letter}({letter}|"_"|{int})*
-set_er = ((({symb}|{letter}|{int}){accent}({symb}|{letter}|{int}))|({symb}|{letter}|{int})({comma}({symb}|{letter}|{int}))+)
+set_er = ((({symb}|{letter}|{int})[ \t\r]*{accent}[ \t\r]*({symb}|{letter}|{int}))|({symb}|{letter}|{int})([ \t\r]*{comma}[ \t\r]*({symb}|{letter}|{int}))+)
 idset_er = [\{]{id}[\}]
-chr_er = "\""({symb}|{letter}|{int})*"\""
-str_er = [\"]({symb}|{letter}|{int}|[ \t\r\n\f])*[\"]
+chr_er = ([\"][\!\#\$\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}][\"]|[\"]{letter}[\"]|[\"]{int}[\"]|[\"][ ]*[\"]|[\"]("\\""n" | "\\""\'")[\"])
+//str_er = ("\""({symb} | {letter} | {int} | [ \t\r\n\f])*"\"")
 specialset_er={specialsym}
 
 %init{
@@ -69,7 +71,7 @@ specialset_er={specialsym}
 {id} {return new Symbol(sym.id,yycolumn,yyline,yytext());}
 {idset_er} {return new Symbol(sym.idset_er,yycolumn,yyline,yytext());}
 {chr_er} {return new Symbol (sym.chr_er,yycolumn,yyline,yytext());}
-{str_er} {return new Symbol (sym.str_er,yycolumn,yyline,yytext());}
+{str} {return new Symbol (sym.str,yycolumn,yyline,yytext());}
 {specialset_er} {return new Symbol(sym.specialset_er,yycolumn,yyline,yytext());}
 {dash} {return new Symbol(sym.dash,yycolumn,yyline,yytext());}
 {greather} {return new Symbol(sym.greather,yycolumn,yyline,yytext());}

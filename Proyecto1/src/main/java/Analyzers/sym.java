@@ -11,7 +11,6 @@ public class sym {
   public static final int greather = 11;
   public static final int asterisk = 15;
   public static final int separator = 19;
-  public static final int str_er = 8;
   public static final int idset_er = 6;
   public static final int set_er = 12;
   public static final int specialset_er = 9;
@@ -23,6 +22,7 @@ public class sym {
   public static final int EOF = 0;
   public static final int id = 5;
   public static final int obracke = 2;
+  public static final int str = 8;
   public static final int error = 1;
   public static final int chr_er = 7;
   public static final int plus = 14;
@@ -38,7 +38,7 @@ public class sym {
   "id",
   "idset_er",
   "chr_er",
-  "str_er",
+  "str",
   "specialset_er",
   "dash",
   "greather",

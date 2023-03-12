@@ -9,13 +9,15 @@ parser code{:
     public static Node raiz;
 :}
 
-terminal String obracke,R_conj,colon,id,idset_er,chr_er,str_er,specialset_er,dash,greather,set_er,concat,plus,asterisk,or,question,semicolon,separator,cbracke;
+terminal String obracke,R_conj,colon,id,idset_er,chr_er,str,specialset_er,dash,greather,set_er,concat,plus,asterisk,or,question,semicolon,separator,cbracke;
 
 non terminal String INIT, FIRSTPART, CONJS, CONJ, ERS, STATEMENTS, STATEMENT;
 non terminal Node ER, NOTATION;
 
-precedence left plus, asterisk, question;
 precedence left concat, or;
+precedence left plus, asterisk, question;
+precedence left str;
+precedence left chr_er;
 
 start with INIT;
 
@@ -59,7 +61,7 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
             MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
         :};
 
-STATEMENT ::= id:a colon:b str_er:c semicolon:d{:
+STATEMENT ::= id:a colon:b str:c semicolon:d{:
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
             MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
         :};
@@ -131,6 +133,16 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
             RESULT = newquestion;
             MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"?");
         :}
+        |chr_er:val{:
+            String first=idstatus+",";
+            String last=idstatus+",";
+
+            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last);
+            parser.idstatus++;
+            parser.contID++;
+            RESULT = newseter;
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
+        :}
         |idset_er:val{:
             String first=idstatus+",";
             String last=idstatus+",";
@@ -149,16 +161,6 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
             parser.idstatus++;
             parser.contID++;
             RESULT = newspcset;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
-        :}
-        |chr_er:val{:
-            String first=idstatus+",";
-            String last=idstatus+",";
-
-            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last);
-            parser.idstatus++;
-            parser.contID++;
-            RESULT = newseter;
             MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         :};
 
