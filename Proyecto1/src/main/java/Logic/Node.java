@@ -9,16 +9,17 @@ package Logic;
  * @author Robin
  */
 public class Node {
-    public Node hizq;
-    public Node hder;
-    public String val;
-    public int idcount;
-    public int id;
-    public String voidable;
-    public String first;
-    public String last;
+    private Node hizq;
+    private Node hder;
+    private String val;
+    private int idcount;
+    private int id;
+    private String voidable;
+    private String first;
+    private String last;
+    private boolean isleaf;
 
-    public Node(Node hizq, Node hder, String val, int idcount, int id, String voidable, String first, String last) {
+    public Node(Node hizq, Node hder, String val, int idcount, int id, String voidable, String first, String last, boolean isleaf) {
         this.hizq = hizq;
         this.hder = hder;
         this.val = val;
@@ -27,6 +28,15 @@ public class Node {
         this.voidable = voidable;
         this.first = first;
         this.last = last;
+        this.isleaf = isleaf;
+    }
+
+    public boolean isIsleaf() {
+        return isleaf;
+    }
+
+    public void setIsleaf(boolean isleaf) {
+        this.isleaf = isleaf;
     }
 
     public Node getHizq() {
@@ -93,9 +103,9 @@ public class Node {
         this.last = last;
     }
     
-    public String getCodigoInterno(){
+    public String getCodTree(){
         String etiqueta;
-        if(hizq == null && hder == null){
+        if(isleaf){
             etiqueta="nodo"+idcount+"[label=<\n"
                     +"<table border='0' cellborder='1' color='blue' cellspacing='0'>\n"
                     +"<tr><td></td><td>"+voidable+"</td><td></td></tr>\n"
@@ -108,16 +118,15 @@ public class Node {
                     +"<table border='0' cellborder='1' color='blue' cellspacing='0'>\n"
                     +"<tr><td></td><td>"+voidable+"</td><td></td></tr>\n"
                     +"<tr><td>"+first+"</td><td>"+val+"</td><td>"+last+"</td></tr>\n"
-                    +"<tr><td></td><td>"+id+"</td><td></td></tr>\n"
                     +"</table>\n"
                     +">];\n";
         }
         if(hizq!=null){
-            etiqueta = etiqueta + hizq.getCodigoInterno()
+            etiqueta = etiqueta + hizq.getCodTree()
                     + "nodo" + idcount + "->nodo" + hizq.idcount + "\n";
         }
         if(hder!=null){
-            etiqueta = etiqueta + hder.getCodigoInterno()
+            etiqueta = etiqueta + hder.getCodTree()
                     + "nodo" + idcount + "->nodo" + hder.idcount + "\n";
         }
         return etiqueta;

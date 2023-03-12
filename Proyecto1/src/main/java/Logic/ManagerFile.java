@@ -85,18 +85,18 @@ public class ManagerFile {
         }
     }
     
-    public static void graficarArbol(Node act, String nombre){
+    public static void graphTree(Node act, String nombre, String path){
         
         FileWriter fichero = null;
         PrintWriter pw;
         try{
-            fichero = new FileWriter("src/main/java/Arboles/"+nombre+".dot");
+            fichero = new FileWriter(path+nombre+".dot");
             pw = new PrintWriter(fichero);
             pw.println("digraph G{");
             pw.println("rankdir=UD");
             pw.println("node[shape=circle]");
             pw.println("concentrate=true");
-            pw.println(act.getCodigoInterno());
+            pw.println(act.getCodTree());
             pw.println("}");
         }catch(IOException e){
             Gui.MainWindow.txtconsole.setText(e.toString());
@@ -114,9 +114,55 @@ public class ManagerFile {
             //direccion del compilador de Graphviz
             String grapPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
             //direccion del .dot
-            String filePath = "src/main/java/Arboles/"+nombre+".dot";
+            String filePath = path+nombre+".dot";
             //direccion de la imagen a crear
-            String imgPath = "src/main/java/Arboles/"+nombre+".jpg";
+            String imgPath = path+nombre+".jpg";
+            //conversion
+            String tParam = "-Tjpg";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = grapPath;
+            cmd[1] = tParam;
+            cmd[2] = filePath;
+            cmd[3] = tOParam;
+            cmd[4] = imgPath;
+
+            Runtime rt = Runtime.getRuntime();
+
+            rt.exec(cmd);
+        }catch(IOException e){
+            Gui.MainWindow.txtconsole.setText(e.toString());
+        }
+    }
+    
+    public static void graphCode(String nombre, String path, String code){
+        
+        FileWriter fichero = null;
+        PrintWriter pw;
+        try{
+            fichero = new FileWriter(path+nombre+".dot");
+            pw = new PrintWriter(fichero);
+            pw.print(code);
+        }catch(IOException e){
+            Gui.MainWindow.txtconsole.setText(e.toString());
+        }finally{
+            try{
+                if (fichero!=null){
+                    fichero.close();
+                }
+            }catch(IOException ex){
+                Gui.MainWindow.txtconsole.setText(ex.toString());
+            }
+        }
+
+        try{
+            //direccion del compilador de Graphviz
+            String grapPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+            //direccion del .dot
+            String filePath = path+nombre+".dot";
+            //direccion de la imagen a crear
+            String imgPath = path+nombre+".jpg";
             //conversion
             String tParam = "-Tjpg";
             String tOParam = "-o";

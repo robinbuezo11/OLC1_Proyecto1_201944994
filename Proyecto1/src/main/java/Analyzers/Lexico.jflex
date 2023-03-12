@@ -51,7 +51,6 @@ id = {letter}({letter}|"_"|{int})*
 set_er = ((({symb}|{letter}|{int})[ \t\r]*{accent}[ \t\r]*({symb}|{letter}|{int}))|({symb}|{letter}|{int})([ \t\r]*{comma}[ \t\r]*({symb}|{letter}|{int}))+)
 idset_er = [\{]{id}[\}]
 chr_er = ([\"][\!\#\$\%\&\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}][\"]|[\"]{letter}[\"]|[\"]{int}[\"]|[\"][ ]*[\"]|[\"]("\\""n" | "\\""\'")[\"])
-//str_er = ("\""({symb} | {letter} | {int} | [ \t\r\n\f])*"\"")
 specialset_er={specialsym}
 
 %init{

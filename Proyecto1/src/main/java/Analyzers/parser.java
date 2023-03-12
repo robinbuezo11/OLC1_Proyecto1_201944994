@@ -202,7 +202,7 @@ class CUP$parser$actions {
             {
               String RESULT =null;
 		
-                
+              MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\nAutómatas generados exitosamente");  
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INIT",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -306,7 +306,7 @@ class CUP$parser$actions {
 		int gright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d+e+f+g);
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d+e+f+g);
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("CONJ",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -336,7 +336,8 @@ class CUP$parser$actions {
             String last = idstatus+",";
             String firs;
             String las;
-            Node newfinal = new Node(null,null,"#",parser.contID,parser.idstatus,"N",first,last);
+            Node newfinal = new Node(null,null,"#",parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newfinal);
             parser.contID++;
             if(val.getVoidable()=="A"){
                 firs = val.getFirst()+last;
@@ -344,11 +345,16 @@ class CUP$parser$actions {
                 firs = val.getFirst();
             }
                 las = newfinal.getLast();
-            Node newroot = new Node(val,newfinal,".",parser.contID,0,"N",firs,las);
+            Node newroot = new Node(val,newfinal,".",parser.contID,0,"N",firs,las,false);
+            MainWindow.nodes.add(newroot);
             parser.raiz = newroot;
-            ManagerFile.graficarArbol(newroot, a);
+            String pathtree = "src/main/java/ARBOLES_201944994/";
+            ManagerFile.graphTree(newroot, a, pathtree);
+            String pathnext = "src/main/java/SIGUIENTES_201944994/";
+            ManagerFile.graphCode(a, pathnext, MainWindow.nodes.getCodeNexts());
             idstatus=1;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
+            MainWindow.nodes.clearAll();
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ER",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -372,7 +378,7 @@ class CUP$parser$actions {
 		String d = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("STATEMENT",6, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -395,13 +401,14 @@ class CUP$parser$actions {
             }else{
                 voi="N";
             }
-            String first = a.getFirst() + b.getFirst();
-            String last = a.getLast() + b.getLast();
+            String first = a.getFirst() +","+ b.getFirst();
+            String last = a.getLast() +","+ b.getLast();
             
-            Node newor = new Node(a,b,"|",parser.contID,0,voi,first,last);
+            Node newor = new Node(a,b,"|",parser.contID,0,voi,first,last,false);
+            MainWindow.nodes.add(newor);
             parser.contID++;
             RESULT = newor;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"|"+b.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"|"+b.toString());
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -427,20 +434,21 @@ class CUP$parser$actions {
                 voi="N";
             }
             if(a.getVoidable()=="A"){
-                first=a.getFirst()+b.getFirst();
+                first=a.getFirst()+","+b.getFirst();
             }else{
                 first=a.getFirst();
             }
             if(b.getVoidable()=="A"){
-                last=a.getLast()+b.getLast();
+                last=a.getLast()+","+b.getLast();
             }else{
                 last=b.getLast();
             }
             
-            Node newconcat = new Node(a,b,".",parser.contID,0,voi,first,last);
+            Node newconcat = new Node(a,b,".",parser.contID,0,voi,first,last,false);
+            MainWindow.nodes.add(newconcat);
             parser.contID++;
             RESULT = newconcat;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"."+b.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"."+b.toString());
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -457,10 +465,11 @@ class CUP$parser$actions {
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newsum = new Node(null,a,"+",parser.contID,0,"N",first,last);
+            Node newsum = new Node(null,a,"+",parser.contID,0,"N",first,last,false);
+            MainWindow.nodes.add(newsum);
             parser.contID++;
             RESULT = newsum;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"+");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"+");
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -477,10 +486,11 @@ class CUP$parser$actions {
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newmult = new Node(null,a,"*",parser.contID,0,"A",first,last);
+            Node newmult = new Node(null,a,"*",parser.contID,0,"A",first,last,false);
+            MainWindow.nodes.add(newmult);
             parser.contID++;
             RESULT = newmult;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"*");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"*");
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -497,10 +507,11 @@ class CUP$parser$actions {
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last);
+            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last,false);
+            MainWindow.nodes.add(newquestion);
             parser.contID++;
             RESULT = newquestion;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"?");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"?");
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -514,14 +525,15 @@ class CUP$parser$actions {
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String val = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-            String first=idstatus+",";
-            String last=idstatus+",";
+            String first=String.valueOf(idstatus);
+            String last=String.valueOf(idstatus);
 
-            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last);
+            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newseter);
             parser.idstatus++;
             parser.contID++;
             RESULT = newseter;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -535,14 +547,15 @@ class CUP$parser$actions {
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String val = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-            String first=idstatus+",";
-            String last=idstatus+",";
+            String first=String.valueOf(idstatus);
+            String last=String.valueOf(idstatus);
 
-            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last);
+            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newidseter);
             parser.idstatus++;
             parser.contID++;
             RESULT = newidseter;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -556,14 +569,15 @@ class CUP$parser$actions {
 		int valright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String val = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-            String first=idstatus+",";
-            String last=idstatus+",";
+            String first=String.valueOf(idstatus);
+            String last=String.valueOf(idstatus);
 
-            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last);
+            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newspcset);
             parser.idstatus++;
             parser.contID++;
             RESULT = newspcset;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NOTATION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

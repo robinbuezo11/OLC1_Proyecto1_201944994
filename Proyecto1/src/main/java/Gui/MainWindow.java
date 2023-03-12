@@ -6,6 +6,7 @@ package Gui;
 
 import Logic.*;
 import java.io.StringReader;
+import java.util.LinkedList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -16,13 +17,16 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class MainWindow extends javax.swing.JFrame {
     
-    ManagerFile mfile;
+    private ManagerFile mfile;
+    public static ListNodes nodes;
     /**
      * Creates new form MainWindow
      */
     public MainWindow() {
         initComponents();
         mfile = new ManagerFile();
+        generateAnalysisTools();
+        nodes = new ListNodes();
     }
 
     /**
@@ -172,7 +176,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_opgenautomatonActionPerformed
 
     private void opanalyzeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opanalyzeActionPerformed
-        analyze();
+        
     }//GEN-LAST:event_opanalyzeActionPerformed
 
     //-------------------METODO PARA ABRIR UN NUEVO ARCHIVO------------------------------------   
@@ -233,8 +237,8 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    //------------------------METODO PARA GENERAR AUTOMATAS------------------------------------
-    private void generateAutomatons(){
+    //------------------METODO PARA GENERAR HERRAMIENTAS DE ANÁLISIS---------------------------
+    private void generateAnalysisTools(){
         try{
             String path = "src/main/java/Analyzers/";
             String opcFlex[] = {path + "Lexico.jflex","-d",path};
@@ -248,8 +252,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     //------------------------METODO PARA ANALIZAR ENTRADAS------------------------------------
-    private void analyze(){
+    private void generateAutomatons(){
         try{
+            nodes.clearAll();
             String data = txtpanel.getText();
             Analyzers.parser parse;
             parse = new Analyzers.parser(new Analyzers.Lexico(new StringReader(data)));

@@ -22,7 +22,7 @@ precedence left chr_er;
 start with INIT;
 
 INIT ::= obracke FIRSTPART separator STATEMENTS cbracke {:
-                
+              MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\nAutómatas generados exitosamente");  
         :};
 
 FIRSTPART ::= CONJS ERS
@@ -38,7 +38,7 @@ STATEMENTS ::= STATEMENTS STATEMENT
             | STATEMENT;
 
 CONJ ::= R_conj:a colon:b id:c dash:d greather:e set_er:f semicolon:g {:
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d+e+f+g);
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d+e+f+g);
         :};
 
 ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
@@ -46,7 +46,8 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
             String last = idstatus+",";
             String firs;
             String las;
-            Node newfinal = new Node(null,null,"#",parser.contID,parser.idstatus,"N",first,last);
+            Node newfinal = new Node(null,null,"#",parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newfinal);
             parser.contID++;
             if(val.getVoidable()=="A"){
                 firs = val.getFirst()+last;
@@ -54,16 +55,21 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
                 firs = val.getFirst();
             }
                 las = newfinal.getLast();
-            Node newroot = new Node(val,newfinal,".",parser.contID,0,"N",firs,las);
+            Node newroot = new Node(val,newfinal,".",parser.contID,0,"N",firs,las,false);
+            MainWindow.nodes.add(newroot);
             parser.raiz = newroot;
-            ManagerFile.graficarArbol(newroot, a);
+            String pathtree = "src/main/java/ARBOLES_201944994/";
+            ManagerFile.graphTree(newroot, a, pathtree);
+            String pathnext = "src/main/java/SIGUIENTES_201944994/";
+            ManagerFile.graphCode(a, pathnext, MainWindow.nodes.getCodeNexts());
             idstatus=1;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
+            MainWindow.nodes.clearAll();
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
         :};
 
 STATEMENT ::= id:a colon:b str:c semicolon:d{:
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
         :};
 
 NOTATION ::= or NOTATION:a NOTATION:b {:
@@ -73,13 +79,14 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
             }else{
                 voi="N";
             }
-            String first = a.getFirst() + b.getFirst();
-            String last = a.getLast() + b.getLast();
+            String first = a.getFirst() +","+ b.getFirst();
+            String last = a.getLast() +","+ b.getLast();
             
-            Node newor = new Node(a,b,"|",parser.contID,0,voi,first,last);
+            Node newor = new Node(a,b,"|",parser.contID,0,voi,first,last,false);
+            MainWindow.nodes.add(newor);
             parser.contID++;
             RESULT = newor;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"|"+b.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"|"+b.toString());
         :}
         |concat NOTATION:a NOTATION:b {:
             String voi;
@@ -91,76 +98,83 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
                 voi="N";
             }
             if(a.getVoidable()=="A"){
-                first=a.getFirst()+b.getFirst();
+                first=a.getFirst()+","+b.getFirst();
             }else{
                 first=a.getFirst();
             }
             if(b.getVoidable()=="A"){
-                last=a.getLast()+b.getLast();
+                last=a.getLast()+","+b.getLast();
             }else{
                 last=b.getLast();
             }
             
-            Node newconcat = new Node(a,b,".",parser.contID,0,voi,first,last);
+            Node newconcat = new Node(a,b,".",parser.contID,0,voi,first,last,false);
+            MainWindow.nodes.add(newconcat);
             parser.contID++;
             RESULT = newconcat;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"."+b.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"."+b.toString());
         :}
         |plus NOTATION:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newsum = new Node(null,a,"+",parser.contID,0,"N",first,last);
+            Node newsum = new Node(null,a,"+",parser.contID,0,"N",first,last,false);
+            MainWindow.nodes.add(newsum);
             parser.contID++;
             RESULT = newsum;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"+");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"+");
         :}
         |asterisk NOTATION:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newmult = new Node(null,a,"*",parser.contID,0,"A",first,last);
+            Node newmult = new Node(null,a,"*",parser.contID,0,"A",first,last,false);
+            MainWindow.nodes.add(newmult);
             parser.contID++;
             RESULT = newmult;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"*");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"*");
         :}
         |question NOTATION:a{:
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last);
+            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last,false);
+            MainWindow.nodes.add(newquestion);
             parser.contID++;
             RESULT = newquestion;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"?");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a.toString()+"?");
         :}
         |chr_er:val{:
-            String first=idstatus+",";
-            String last=idstatus+",";
+            String first=String.valueOf(idstatus);
+            String last=String.valueOf(idstatus);
 
-            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last);
+            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newseter);
             parser.idstatus++;
             parser.contID++;
             RESULT = newseter;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         :}
         |idset_er:val{:
-            String first=idstatus+",";
-            String last=idstatus+",";
+            String first=String.valueOf(idstatus);
+            String last=String.valueOf(idstatus);
 
-            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last);
+            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newidseter);
             parser.idstatus++;
             parser.contID++;
             RESULT = newidseter;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         :}
         |specialset_er:val{:
-            String first=idstatus+",";
-            String last=idstatus+",";
+            String first=String.valueOf(idstatus);
+            String last=String.valueOf(idstatus);
 
-            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last);
+            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            MainWindow.nodes.add(newspcset);
             parser.idstatus++;
             parser.contID++;
             RESULT = newspcset;
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.toString());
         :};
 
