@@ -9,7 +9,6 @@ import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import Gui.*;
 
 /**
  *
@@ -180,7 +179,27 @@ public class ListNodes {
         for(Entry<String,LinkedList<String>> stat: status.entrySet()){
             for(String s : stat.getValue()){
                 if(nexts.get(Integer.valueOf(s))!=null){
-                    data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</td></tr>\n";
+                    boolean acptstatus = false;
+                    boolean acptstn = false;
+                    for(String acpt: stat.getValue()){
+                        if ("#".equals(getValueOfNodeByKey(Integer.parseInt(acpt)))){
+                            acptstatus = true;
+                        }
+                    }
+                    for(String acptn: nexts.get(Integer.valueOf(s))){
+                        if ("#".equals(getValueOfNodeByKey(Integer.parseInt(acptn)))){
+                            acptstn = true;
+                        }
+                    }
+                    if (acptstatus && acptstn){
+                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</b></td></tr>\n";
+                    }else if(!acptstatus && acptstn){
+                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</b></td></tr>\n";
+                    }else if(acptstatus && !acptstn){
+                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</td></tr>\n";
+                    }else{
+                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</td></tr>\n";
+                    }
                 }
             }
         }
