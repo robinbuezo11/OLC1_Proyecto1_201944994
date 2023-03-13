@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -99,14 +100,14 @@ public class ManagerFile {
             pw.println(act.getCodTree());
             pw.println("}");
         }catch(IOException e){
-            Gui.MainWindow.txtconsole.setText(e.toString());
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+e.toString()+"\n");
         }finally{
             try{
                 if (fichero!=null){
                     fichero.close();
                 }
             }catch(IOException ex){
-                Gui.MainWindow.txtconsole.setText(ex.toString());
+                Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+ex.toString()+"\n");
             }
         }
 
@@ -132,7 +133,7 @@ public class ManagerFile {
 
             rt.exec(cmd);
         }catch(IOException e){
-            Gui.MainWindow.txtconsole.setText(e.toString());
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+e.toString()+"\n");
         }
     }
     
@@ -145,14 +146,14 @@ public class ManagerFile {
             pw = new PrintWriter(fichero);
             pw.print(code);
         }catch(IOException e){
-            Gui.MainWindow.txtconsole.setText(e.toString());
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+e.toString()+"\n");
         }finally{
             try{
                 if (fichero!=null){
                     fichero.close();
                 }
             }catch(IOException ex){
-                Gui.MainWindow.txtconsole.setText(ex.toString());
+                Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+ex.toString()+"\n");
             }
         }
 
@@ -178,7 +179,28 @@ public class ManagerFile {
 
             rt.exec(cmd);
         }catch(IOException e){
-            Gui.MainWindow.txtconsole.setText(e.toString());
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+e.toString()+"\n");
+        }
+    }
+    
+    public static void writeErrors(String nombre, String path, String code){
+        
+        FileWriter fichero = null;
+        PrintWriter pw;
+        try{
+            fichero = new FileWriter(path+nombre+".html",StandardCharsets.UTF_8);
+            pw = new PrintWriter(fichero);
+            pw.print(code);
+        }catch(IOException e){
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+e.toString()+"\n");
+        }finally{
+            try{
+                if (fichero!=null){
+                    fichero.close();
+                }
+            }catch(IOException ex){
+                Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+ex.toString()+"\n");
+            }
         }
     }
     

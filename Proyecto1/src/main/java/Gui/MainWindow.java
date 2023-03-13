@@ -19,6 +19,7 @@ public class MainWindow extends javax.swing.JFrame {
     
     private ManagerFile mfile;
     public static ListNodes nodes;
+    public static ListErrors errors;
     /**
      * Creates new form MainWindow
      */
@@ -27,6 +28,7 @@ public class MainWindow extends javax.swing.JFrame {
         mfile = new ManagerFile();
         generateAnalysisTools();
         nodes = new ListNodes();
+        errors = new ListErrors();
     }
 
     /**
@@ -255,13 +257,20 @@ public class MainWindow extends javax.swing.JFrame {
     private void generateAutomatons(){
         try{
             nodes.clearAll();
+            errors.clear();
             String data = txtpanel.getText();
             Analyzers.parser parse;
             parse = new Analyzers.parser(new Analyzers.Lexico(new StringReader(data)));
             
             parse.parse();
+            LinkedList<String> err = MainWindow.errors.getCodeErrors();
+            String patherror = "src/main/java/ERRORES_201944994/";
+            if(err.getFirst()!="Y"){
+                ManagerFile.writeErrors("Errores", patherror, err.getLast());
+                txtconsole.setText(txtconsole.getText()+"ERRORES EN EL ANÁLISIS"+"\n");
+            }
         }catch(Exception e){
-            txtconsole.setText(e.toString());
+            txtconsole.setText(txtconsole.getText()+e.toString()+"\n");
         }
     }
     

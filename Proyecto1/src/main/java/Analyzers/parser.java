@@ -7,6 +7,7 @@ package Analyzers;
 
 import Logic.*;
 import Gui.*;
+import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
 
@@ -202,7 +203,7 @@ class CUP$parser$actions {
             {
               String RESULT =null;
 		
-              MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"Autómatas generados exitosamente\n");  
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"¡Análisis finalizado!\n"); 
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INIT",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -332,8 +333,8 @@ class CUP$parser$actions {
 		int dright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String d = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-            String first = idstatus+",";
-            String last = idstatus+",";
+            String first = String.valueOf(idstatus);
+            String last = String.valueOf(idstatus);
             String firs;
             String las;
             Node newfinal = new Node(null,null,"#",parser.contID,parser.idstatus,"N",first,last,true);
@@ -356,6 +357,7 @@ class CUP$parser$actions {
             ManagerFile.graphCode(a, pathtrans, MainWindow.nodes.getCodeTransitions());
             String pathafd = "src/main/java/AFD_201944994/";
             ManagerFile.graphCode(a, pathafd, MainWindow.nodes.getCodeAFD());
+
             idstatus=1;
             MainWindow.nodes.clearAll();
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);

@@ -86,5 +86,7 @@ specialset_er={specialsym}
 
 
 .   {
-        MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"ERROR LEXICO: " + yytext()+" Linea: "+(yyline) + " Columna: "+(yycolumn)+"\n");
+        //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"ERROR LEXICO: " + yytext()+" Linea: "+(yyline) + " Columna: "+(yycolumn)+"\n");
+        String[] error = {"Léxico",yytext(),String.valueOf(yyline),String.valueOf(yycolumn)};
+        MainWindow.errors.add(error);
     }

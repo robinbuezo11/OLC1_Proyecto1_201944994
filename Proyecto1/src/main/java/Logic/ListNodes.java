@@ -27,6 +27,7 @@ public class ListNodes {
         this.countStatus = 0;
     }
     
+    //------------------------METODO PARA AGREGAR NODOS------------------------------------
     public void add(Node newnode){
         nodes.add(newnode);
         switch(newnode.getVal()){
@@ -105,6 +106,7 @@ public class ListNodes {
         }
     }
     
+    //------------------------INICIALIZA LAS ESTRUCTURAS Y CAMPOS------------------------------------
     public void clearAll(){
         nodes.clear();
         nexts.clear();
@@ -112,6 +114,7 @@ public class ListNodes {
         countStatus = 0;
     }
     
+    //------------------------METODO PARA GRAFICAR SIGUIENTES-------------------------------------------
     public String getCodeNexts(){
         String data = "n[label=<<table cellspacing=\"0\">\n<tr><td><b>Nodo</b></td><td><b>Valor</b></td><td><b>Siguiente</b></td></tr>\n";
         for(Entry<Integer,LinkedList<String>> nod: nexts.entrySet()){
@@ -129,6 +132,7 @@ public class ListNodes {
 		"}";
     }
     
+    //------------------------METODO PARA POBLAR ESTRUCTURA DE ESTADOS------------------------------------
     private void generateStatus(){
         String[] arrfirst = nodes.getLast().getFirst().split(",");
         List<String> lsfirsts = Arrays.asList(arrfirst);
@@ -137,6 +141,7 @@ public class ListNodes {
         addStatus(firsts);
     }
     
+    //------------------------METODO PARA AGREGAR ESTADOS--------------------------------------------------
     private void addStatus(LinkedList<String> nodes){
         for(String n: nodes){
             int i = Integer.parseInt(n);
@@ -148,6 +153,7 @@ public class ListNodes {
         }
     }
     
+    //------------------------METODO PARA GRAFICAR TRANSICIONES---------------------------------------------
     public String getCodeTransitions(){
         generateStatus();
         
@@ -194,6 +200,7 @@ public class ListNodes {
         
     }
     
+    //-------------------------------METODO PARA GRAFICAR AFD--------------------------------------------------
     public String getCodeAFD(){
         String accept = "node [shape=doublecircle]";
         String connect = "\n";
@@ -209,9 +216,9 @@ public class ListNodes {
                 }
                 if(nexts.get(Integer.valueOf(next))!= null){
                     if(!same){
-                        connect += stat.getKey()+"->"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))+" [label = \""+getValueOfNodeByKey(Integer.parseInt(next)).replace("\"", "");
+                        connect += stat.getKey()+"->"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))+" [label = \""+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
                     }else{
-                        connect +="\\n"+getValueOfNodeByKey(Integer.parseInt(next)).replace("\"", "");
+                        connect +="\\n"+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
                     }
                 }
                 if(stat.getKey().equals(String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))) && same==false){
@@ -239,6 +246,7 @@ public class ListNodes {
         
     }
     
+    //------------------------METODO PARA OBTENER EL VALOR DEL NODO SEGÚN LA LLAVE---------------------------------------------
     public String getValueOfNodeByKey(int id){
         for (Node n : nodes) {
             if(n.getId()==id){
@@ -248,6 +256,7 @@ public class ListNodes {
         return null;
     }
     
+    //------------------------METODO PARA OBTENER LA LLAVE DEL ESTADO SEGÚN SU VALOR-----------------------------------------
     public String getKeyOfStatusByValue(LinkedList<String> val){
         for(Entry<String,LinkedList<String>> ent: status.entrySet()){
             if (ent.getValue().equals(val)){
