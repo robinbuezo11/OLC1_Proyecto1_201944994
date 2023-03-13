@@ -354,6 +354,8 @@ class CUP$parser$actions {
             ManagerFile.graphCode(a, pathnext, MainWindow.nodes.getCodeNexts());
             String pathtrans = "src/main/java/TRANSICIONES_201944994/";
             ManagerFile.graphCode(a, pathtrans, MainWindow.nodes.getCodeTransitions());
+            String pathafd = "src/main/java/AFD_201944994/";
+            ManagerFile.graphCode(a, pathafd, MainWindow.nodes.getCodeAFD());
             idstatus=1;
             MainWindow.nodes.clearAll();
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);

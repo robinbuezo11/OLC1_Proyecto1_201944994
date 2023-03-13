@@ -102,30 +102,6 @@ public class ListNodes {
                     }
                 }
             }
-            case "?" -> {
-                String[] itemsstr = newnode.getLast().split(",");
-                Integer[] items = new Integer[itemsstr.length];
-                for(int i=0;i<itemsstr.length;i++){
-                    items[i]=Integer.valueOf(itemsstr[i]);
-                }
-                String[] next = newnode.getFirst().split(",");
-                for(Integer s: items){
-                    if(nexts.containsKey(s)){
-                        for(String n: next){
-                            if(!nexts.get(s).contains(n)){
-                                nexts.get(s).add(n);
-                            }
-                        }
-                    }else{
-                        nexts.put(s, new LinkedList());
-                        for(String n: next){
-                            if(!nexts.get(s).contains(n)){
-                                nexts.get(s).add(n);
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
     
@@ -214,6 +190,51 @@ public class ListNodes {
                rankdir=TB;
                """ +
 		data +
+		"}";
+        
+    }
+    
+    public String getCodeAFD(){
+        String accept = "node [shape=doublecircle]";
+        String connect = "\n";
+        for(Entry<String,LinkedList<String>> stat: status.entrySet()){
+            boolean same = false;
+            for(String next : stat.getValue()){
+                if ("#".equals(getValueOfNodeByKey(Integer.parseInt(next)))){
+                    accept += " "+stat.getKey();
+                }
+                if(!stat.getKey().equals(String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))) && same==true){
+                    same=!same;
+                    connect+="\"];\n";
+                }
+                if(nexts.get(Integer.valueOf(next))!= null){
+                    if(!same){
+                        connect += stat.getKey()+"->"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))+" [label = \""+getValueOfNodeByKey(Integer.parseInt(next)).replace("\"", "");
+                    }else{
+                        connect +="\\n"+getValueOfNodeByKey(Integer.parseInt(next)).replace("\"", "");
+                    }
+                }
+                if(stat.getKey().equals(String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))) && same==false){
+                    same=!same;
+                }
+                if(!same && nexts.get(Integer.valueOf(next))!= null){
+                    connect+="\"];\n";
+                }
+            }
+        }
+        accept += ";\nnode [shape=circle];";
+        
+        //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+String.valueOf(status)+"\n");
+        
+        return """
+               digraph G {
+               fontname="Helvetica,Arial,sans-serif"
+               node [fontname="Helvetica,Arial,sans-serif"]
+               edge [fontname="Helvetica,Arial,sans-serif"]
+               rankdir=LR;
+               """ +
+		accept +
+                connect +
 		"}";
         
     }
