@@ -18,7 +18,6 @@ public class Node {
     private String first;
     private String last;
     private boolean isleaf;
-    private int countafn;
 
     public Node(Node hizq, Node hder, String val, int idcount, int id, String voidable, String first, String last, boolean isleaf) {
         this.hizq = hizq;
@@ -30,15 +29,6 @@ public class Node {
         this.first = first;
         this.last = last;
         this.isleaf = isleaf;
-        this.countafn = 0;
-    }
-
-    public int getCountafn() {
-        return countafn;
-    }
-
-    public void setCountafn(int countafn) {
-        this.countafn = countafn;
     }
 
     public boolean isIsleaf() {
@@ -142,68 +132,91 @@ public class Node {
         return etiqueta;
     }
     
-    public String getCodAFND(String connect){
+    
+    private String generateCodAFND(){
+        String etiqueta;
         if (hder != null){
             switch (val) {
                 case "." -> {
-                    countafn+=1;
-                    connect += (countafn-1)+"->"+hizq.getCodAFND(connect);//+" [label = \""+"".replace("\\", "\\\\").replace("\"", "\\\"");
-                    connect += "->"+hder.getCodAFND(connect);
+                    etiqueta = "";
                 }
-                case "|" -> {
+                /*case "|" -> {
                     countafn+=3;
-                    connect += (countafn-3)+"->"+(countafn-2)+" [label = \"ε\"];\n";
-                    connect += (countafn-3)+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                    connect = (countafn-3)+"->"+(countafn-2)+" [label = \"ε\"];\n";
+                    connect = (countafn-3)+"->"+(countafn-1)+" [label = \"ε\"];\n";
                     int a=countafn-2;
                     int b=countafn-1;
                     
-                    connect += a+"->"+hizq.getCodAFND(connect);
+                    connect += a+"->"+hizq.generateCodAFND(connect,countafn);
                     countafn+=1;
                     connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
                     int e=countafn-1;
-                    connect += b+"->"+hder.getCodAFND(connect);
+                    connect += b+"->"+hder.generateCodAFND(connect,countafn);
                     connect += (countafn-1)+"->"+e+" [label = \"ε\"];\n";
                 }
                 case "+" -> {
+                    countafn+=2;
+                    connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                    //int eini=countafn-2;
+                    int aini=countafn-1;
                     
+                    connect += aini+"->"+hder.generateCodAFND(connect,countafn);
+                    int afin=countafn-1;
+                    connect += afin+"->"+aini+" [label = \"ε\"];\n";
+                    countafn+=1;
+                    connect += afin+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                    //connect += eini+"->"+(countafn-1)+" [label = \"ε\"];\n";
                 }
                 case "*" -> {
+                    countafn+=2;
+                    connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                    int eini=countafn-2;
+                    int aini=countafn-1;
                     
+                    connect += aini+"->"+hder.generateCodAFND(connect,countafn);
+                    int afin=countafn-1;
+                    connect += afin+"->"+aini+" [label = \"ε\"];\n";
+                    countafn+=1;
+                    connect += afin+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                    connect += eini+"->"+(countafn-1)+" [label = \"ε\"];\n";
                 }
                 case "?" -> {
+                    countafn+=2;
+                    connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                    int eini=countafn-2;
+                    int aini=countafn-1;
                     
-                }
+                    connect += aini+"->"+hder.generateCodAFND(connect,countafn);
+                    int afin=countafn-1;
+                    //connect += afin+"->"+aini+" [label = \"ε\"];\n";
+                    countafn+=1;
+                    connect += afin+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                    connect += eini+"->"+(countafn-1)+" [label = \"ε\"];\n";
+                }*/
             }
         }else{
-            //deben siempre apuntar a un siguiente
+            etiqueta = idcount+"i"+"->"+(idcount)+"f"+" [label = \""+val.replace("\\", "\\\\").replace("\"", "\\\"")+"\"];\n";
         }
         
-        /*if(isleaf){
-            etiqueta="nodo"+idcount+"[label=<\n"
-                    +"<table border='0' cellborder='1' color='blue' cellspacing='0'>\n"
-                    +"<tr><td></td><td>"+voidable+"</td><td></td></tr>\n"
-                    +"<tr><td>"+first+"</td><td>"+val+"</td><td>"+last+"</td></tr>\n"
-                    +"<tr><td></td><td>"+id+"</td><td></td></tr>\n"
-                    +"</table>\n"
-                    +">];\n";
-        }else{
-            etiqueta="nodo"+idcount+"[label=<\n"
-                    +"<table border='0' cellborder='1' color='blue' cellspacing='0'>\n"
-                    +"<tr><td></td><td>"+voidable+"</td><td></td></tr>\n"
-                    +"<tr><td>"+first+"</td><td>"+val+"</td><td>"+last+"</td></tr>\n"
-                    +"</table>\n"
-                    +">];\n";
-        }
-        if(hizq!=null){
-            etiqueta = etiqueta + hizq.getCodTree()
-                    + "nodo" + idcount + "->nodo" + hizq.idcount + "\n";
-        }
-        if(hder!=null){
-            etiqueta = etiqueta + hder.getCodTree()
-                    + "nodo" + idcount + "->nodo" + hder.idcount + "\n";
-        }
-        */
-        return connect;
+        
+        return "";
+    }
+    
+    public String getCodeAFND(){
+        String str = generateCodAFND();
+        String code = "node [shape=doublecircle]";
+        code += ";\nnode [shape=circle];";
+        code += str;
+        
+        return """
+               digraph G {
+               fontname="Helvetica,Arial,sans-serif"
+               node [fontname="Helvetica,Arial,sans-serif"]
+               edge [fontname="Helvetica,Arial,sans-serif"]
+               rankdir=LR;
+               """ +
+		code +
+		"}";
     }
 
     @Override

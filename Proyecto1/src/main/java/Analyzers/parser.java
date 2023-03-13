@@ -357,6 +357,9 @@ class CUP$parser$actions {
             ManagerFile.graphCode(a, pathtrans, MainWindow.nodes.getCodeTransitions());
             String pathafd = "src/main/java/AFD_201944994/";
             ManagerFile.graphCode(a, pathafd, MainWindow.nodes.getCodeAFD());
+            String pathafnd = "src/main/java/AFND_201944994/";
+            ManagerFile.graphCode(a, pathafnd, newroot.getCodeAFND());
+
 
             idstatus=1;
             MainWindow.nodes.clearAll();

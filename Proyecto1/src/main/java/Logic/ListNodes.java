@@ -18,6 +18,7 @@ public class ListNodes {
     private LinkedList<Node> nodes;
     private TreeMap<Integer, LinkedList<String>> nexts;
     private TreeMap<String, LinkedList<String>> status;
+    //private TreeMap<Node, LinkedList<String>> afnd;
     private int countStatus;
     
     public ListNodes() {
@@ -25,6 +26,7 @@ public class ListNodes {
         this.nexts = new TreeMap<>();
         this.status = new TreeMap<>();
         this.countStatus = 0;
+        //this.afnd = new TreeMap<>();
     }
     
     //------------------------METODO PARA AGREGAR NODOS------------------------------------
