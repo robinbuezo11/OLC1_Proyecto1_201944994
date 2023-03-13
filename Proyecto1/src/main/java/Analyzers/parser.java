@@ -202,7 +202,7 @@ class CUP$parser$actions {
             {
               String RESULT =null;
 		
-              MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\nAutómatas generados exitosamente");  
+              MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"Autómatas generados exitosamente\n");  
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INIT",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -352,6 +352,8 @@ class CUP$parser$actions {
             ManagerFile.graphTree(newroot, a, pathtree);
             String pathnext = "src/main/java/SIGUIENTES_201944994/";
             ManagerFile.graphCode(a, pathnext, MainWindow.nodes.getCodeNexts());
+            String pathtrans = "src/main/java/TRANSICIONES_201944994/";
+            ManagerFile.graphCode(a, pathtrans, MainWindow.nodes.getCodeTransitions());
             idstatus=1;
             MainWindow.nodes.clearAll();
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);

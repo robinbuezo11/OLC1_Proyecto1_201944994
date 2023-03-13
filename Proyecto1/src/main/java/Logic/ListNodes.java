@@ -4,9 +4,12 @@
  */
 package Logic;
 
+import java.util.Arrays;
 import java.util.TreeMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map.Entry;
+import Gui.*;
 
 /**
  *
@@ -15,10 +18,14 @@ import java.util.Map.Entry;
 public class ListNodes {
     private LinkedList<Node> nodes;
     private TreeMap<Integer, LinkedList<String>> nexts;
-
+    private TreeMap<String, LinkedList<String>> status;
+    private int countStatus;
+    
     public ListNodes() {
         this.nodes = new LinkedList<>();
         this.nexts = new TreeMap<>();
+        this.status = new TreeMap<>();
+        this.countStatus = 0;
     }
     
     public void add(Node newnode){
@@ -126,12 +133,14 @@ public class ListNodes {
     public void clearAll(){
         nodes.clear();
         nexts.clear();
+        status.clear();
+        countStatus = 0;
     }
     
     public String getCodeNexts(){
         String data = "n[label=<<table cellspacing=\"0\">\n<tr><td><b>Nodo</b></td><td><b>Valor</b></td><td><b>Siguiente</b></td></tr>\n";
         for(Entry<Integer,LinkedList<String>> nod: nexts.entrySet()){
-            data += "<tr><td>"+nod.getKey()+"</td><td>"+getValueOfNode(nod.getKey())+"</td><td>"+String.valueOf(nod.getValue())+"</td></tr>\n";
+            data += "<tr><td>"+nod.getKey()+"</td><td>"+getValueOfNodeByKey(nod.getKey())+"</td><td>"+String.valueOf(nod.getValue())+"</td></tr>\n";
         }
         data+="</table>>]\n";
         
@@ -145,10 +154,64 @@ public class ListNodes {
 		"}";
     }
     
-    public String getValueOfNode(int id){
+    private void generateStatus(){
+        String[] arrfirst = nodes.getLast().getFirst().split(",");
+        List<String> lsfirsts = Arrays.asList(arrfirst);
+        LinkedList<String> firsts = new LinkedList<>(lsfirsts);
+        status.put("S"+countStatus, firsts);
+        addStatus(firsts);
+    }
+    
+    private void addStatus(LinkedList<String> nodes){
+        for(String n: nodes){
+            int i = Integer.parseInt(n);
+            if(!status.containsValue(nexts.get(i)) && nexts.get(i)!=null){
+                countStatus+=1;
+                status.put("S"+countStatus, nexts.get(i));
+                addStatus(nexts.get(i));
+            }
+        }
+    }
+    
+    public String getCodeTransitions(){
+        generateStatus();
+        
+        String data = "n[label=<<table cellspacing=\"0\">\n<tr><td><b>Estado</b></td><td><b>Nodo</b></td><td><b>Terminal</b></td><td><b>Siguiente</b></td></tr>\n";
+        for(Entry<String,LinkedList<String>> stat: status.entrySet()){
+            for(String s : stat.getValue()){
+                if(nexts.get(Integer.valueOf(s))!=null){
+                    data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</td></tr>\n";
+                }
+            }
+        }
+        data+="</table>>]\n";
+        
+        //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+String.valueOf(status)+"\n");
+        
+        return """
+               digraph G {
+               node[shape=rectangle style=filled pencolor="#00000" color="cyan" fontname="Helvetica,Arial"];
+               edge [dir=both]
+               rankdir=TB;
+               """ +
+		data +
+		"}";
+        
+    }
+    
+    public String getValueOfNodeByKey(int id){
         for (Node n : nodes) {
             if(n.getId()==id){
                 return n.getVal();
+            }
+        }
+        return null;
+    }
+    
+    public String getKeyOfStatusByValue(LinkedList<String> val){
+        for(Entry<String,LinkedList<String>> ent: status.entrySet()){
+            if (ent.getValue().equals(val)){
+                return ent.getKey();
             }
         }
         return null;

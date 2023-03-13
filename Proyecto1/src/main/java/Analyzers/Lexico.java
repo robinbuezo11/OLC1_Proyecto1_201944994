@@ -758,7 +758,7 @@ public class Lexico implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\nERROR LEXICO: " + yytext()+" Linea: "+(yyline) + " Columna: "+(yycolumn));
+            { MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"ERROR LEXICO: " + yytext()+" Linea: "+(yyline) + " Columna: "+(yycolumn)+"\n");
             }
           // fall through
           case 22: break;

@@ -22,7 +22,7 @@ precedence left chr_er;
 start with INIT;
 
 INIT ::= obracke FIRSTPART separator STATEMENTS cbracke {:
-              MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\nAutómatas generados exitosamente");  
+              MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"Autómatas generados exitosamente\n");  
         :};
 
 FIRSTPART ::= CONJS ERS
@@ -62,6 +62,8 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
             ManagerFile.graphTree(newroot, a, pathtree);
             String pathnext = "src/main/java/SIGUIENTES_201944994/";
             ManagerFile.graphCode(a, pathnext, MainWindow.nodes.getCodeNexts());
+            String pathtrans = "src/main/java/TRANSICIONES_201944994/";
+            ManagerFile.graphCode(a, pathtrans, MainWindow.nodes.getCodeTransitions());
             idstatus=1;
             MainWindow.nodes.clearAll();
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
