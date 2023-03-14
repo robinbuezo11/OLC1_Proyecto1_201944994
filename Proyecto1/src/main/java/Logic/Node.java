@@ -46,7 +46,22 @@ public class Node {
         this.afni = afni;
         this.afnf = afnf;
     }
-    
+
+    public int getAfni() {
+        return afni;
+    }
+
+    public void setAfni(int afni) {
+        this.afni = afni;
+    }
+
+    public int getAfnf() {
+        return afnf;
+    }
+
+    public void setAfnf(int afnf) {
+        this.afnf = afnf;
+    }
     
     
 

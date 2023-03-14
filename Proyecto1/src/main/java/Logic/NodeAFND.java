@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Logic;
-
-import java.util.LinkedList;
+import java.util.TreeMap;
 
 /**
  *
@@ -12,12 +11,10 @@ import java.util.LinkedList;
  */
 public class NodeAFND {
     public int id;
-    public String val;
-    public LinkedList<Integer> nexts;
+    public TreeMap<Integer,String> nexts;
 
-    public NodeAFND(int id, String val, LinkedList<Integer> nexts) {
+    public NodeAFND(int id, String val, TreeMap<Integer,String> nexts) {
         this.id = id;
-        this.val = val;
         this.nexts = nexts;
     }
 
@@ -29,19 +26,11 @@ public class NodeAFND {
         this.id = id;
     }
 
-    public String getVal() {
-        return val;
-    }
-
-    public void setVal(String val) {
-        this.val = val;
-    }
-
-    public LinkedList<Integer> getNexts() {
+    public TreeMap<Integer,String> getNexts() {
         return nexts;
     }
 
-    public void setNexts(LinkedList<Integer> nexts) {
+    public void setNexts(TreeMap<Integer,String> nexts) {
         this.nexts = nexts;
     }
     

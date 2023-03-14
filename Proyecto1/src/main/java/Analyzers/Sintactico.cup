@@ -1,7 +1,8 @@
 package Analyzers;
 import Logic.*;
 import Gui.*;
-import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 import java_cup.runtime.*;
 
 parser code{:
@@ -150,7 +151,25 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last,false);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(a.getAfni(),"ε");
+            ai.nexts.put(af.getId(),"ε");
+
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts.put(af.getId(),"ε");
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last,false,ai.getId(),af.getId());
             MainWindow.nodes.add(newquestion);
             parser.contID++;
             RESULT = newquestion;
@@ -160,7 +179,22 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
             String first=String.valueOf(idstatus);
             String last=String.valueOf(idstatus);
 
-            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(af.getId(),val);
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true,ai.getId(),af.getId());
             MainWindow.nodes.add(newseter);
             parser.idstatus++;
             parser.contID++;
@@ -171,7 +205,22 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
             String first=String.valueOf(idstatus);
             String last=String.valueOf(idstatus);
 
-            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last,true);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(af.getId(),val);
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last,true,ai.getId(),af.getId());
             MainWindow.nodes.add(newidseter);
             parser.idstatus++;
             parser.contID++;
@@ -182,17 +231,22 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
             String first=String.valueOf(idstatus);
             String last=String.valueOf(idstatus);
             
-            LinkedList<Integer> ainexts = new LinkedList<>();
-            NodeAFND ai = new NodeAFND(countAFND, val, ainexts);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
             parser.countAFND++;
 
-            LinkedList<Integer> afnexts = new LinkedList<>();
-            NodeAFND af = new NodeAFND(countAFND, "ε", afnexts);
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
             parser.countAFND++;
-            
-            
 
-            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            ai.nexts.put(af.getId(),val);
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true,ai.getId(),af.getId());
             MainWindow.nodes.add(newspcset);
             parser.idstatus++;
             parser.contID++;
