@@ -18,15 +18,17 @@ public class ListNodes {
     private LinkedList<Node> nodes;
     private TreeMap<Integer, LinkedList<String>> nexts;
     private TreeMap<String, LinkedList<String>> status;
+    public LinkedList<NodeAFND> stsafnd;
     private int countStatus;
     
     public ListNodes() {
         this.nodes = new LinkedList<>();
         this.nexts = new TreeMap<>();
         this.status = new TreeMap<>();
+        this.stsafnd = new LinkedList<>();
         this.countStatus = 0;
-        //this.afnd = new TreeMap<>();
     }
+
     
     //------------------------METODO PARA AGREGAR NODOS------------------------------------
     public void add(Node newnode){

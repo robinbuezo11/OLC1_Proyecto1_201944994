@@ -157,6 +157,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
     public static int contID=1;
     public static int idstatus=1;
+    public static int countAFND=1;
     public static Node raiz;
 
 
@@ -358,9 +359,9 @@ class CUP$parser$actions {
             String pathafd = "src/main/java/AFD_201944994/";
             ManagerFile.graphCode(a, pathafd, MainWindow.nodes.getCodeAFD());
             String pathafnd = "src/main/java/AFND_201944994/";
-            /*if(newroot.getHizq()!=null){
+            if(newroot.getHizq()!=null){
                 ManagerFile.graphCode(a, pathafnd, newroot.getHizq().getCodeAFND());
-            }*/
+            }
 
             idstatus=1;
             MainWindow.nodes.clearAll();

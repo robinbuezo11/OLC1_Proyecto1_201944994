@@ -7,6 +7,7 @@ import java_cup.runtime.*;
 parser code{:
     public static int contID=1;
     public static int idstatus=1;
+    public static int countAFND=1;
     public static Node raiz;
 :}
 
@@ -68,10 +69,11 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
             String pathafd = "src/main/java/AFD_201944994/";
             ManagerFile.graphCode(a, pathafd, MainWindow.nodes.getCodeAFD());
             String pathafnd = "src/main/java/AFND_201944994/";
-            /*if(newroot.getHizq()!=null){
+            /*
+            if(newroot.getHizq()!=null){
                 ManagerFile.graphCode(a, pathafnd, newroot.getHizq().getCodeAFND());
-            }*/
-
+            }
+            */
             idstatus=1;
             MainWindow.nodes.clearAll();
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
@@ -179,6 +181,16 @@ NOTATION ::= or NOTATION:a NOTATION:b {:
         |specialset_er:val{:
             String first=String.valueOf(idstatus);
             String last=String.valueOf(idstatus);
+            
+            LinkedList<Integer> ainexts = new LinkedList<>();
+            NodeAFND ai = new NodeAFND(countAFND, val, ainexts);
+            parser.countAFND++;
+
+            LinkedList<Integer> afnexts = new LinkedList<>();
+            NodeAFND af = new NodeAFND(countAFND, "ε", afnexts);
+            parser.countAFND++;
+            
+            
 
             Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
             MainWindow.nodes.add(newspcset);
