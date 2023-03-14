@@ -131,81 +131,97 @@ public class Node {
         }
         return etiqueta;
     }
-    
-    
-    private String generateCodAFND(){
-        String etiqueta;
-        if (hder != null){
-            switch (val) {
-                case "." -> {
-                    etiqueta = "";
+
+ /*   
+    private String generateCodAFND(boolean self){
+        String etiqueta="";
+        switch (val) {
+            case "." -> {
+                if(hizq.hder == null && hder.hder == null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+idcount+" [label=\""+hizq.val+"\"];\n"+idcount+" -> ";
+                    etiqueta = etiqueta + idcount+"4 [label=\""+hder.val+"\"];\n"+idcount+"4 -> ";
+                    if(self){
+                        etiqueta = etiqueta + idcount+"4 -> "+idcount+"1 [label=\"ε\"];\n";
+                    }
+                }else if(hizq.hder != null && hder.hder == null){
+                    etiqueta = etiqueta + hizq.generateCodAFND(false);
+                    etiqueta = etiqueta + idcount+"4 [label=\""+hder.val+"\"];\n"+idcount+"4 -> ";
+                }else if(hizq.hder == null && hder.hder != null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+idcount+" [label=\""+hizq.val+"\"];\n"+idcount+" -> ";
+                    etiqueta = etiqueta + hder.generateCodAFND(false);
+                }else{
+                    etiqueta = etiqueta + hizq.generateCodAFND(false);
+                    etiqueta = etiqueta + hder.generateCodAFND(false);
                 }
-                /*case "|" -> {
-                    countafn+=3;
-                    connect = (countafn-3)+"->"+(countafn-2)+" [label = \"ε\"];\n";
-                    connect = (countafn-3)+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    int a=countafn-2;
-                    int b=countafn-1;
-                    
-                    connect += a+"->"+hizq.generateCodAFND(connect,countafn);
-                    countafn+=1;
-                    connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    int e=countafn-1;
-                    connect += b+"->"+hder.generateCodAFND(connect,countafn);
-                    connect += (countafn-1)+"->"+e+" [label = \"ε\"];\n";
-                }
-                case "+" -> {
-                    countafn+=2;
-                    connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    //int eini=countafn-2;
-                    int aini=countafn-1;
-                    
-                    connect += aini+"->"+hder.generateCodAFND(connect,countafn);
-                    int afin=countafn-1;
-                    connect += afin+"->"+aini+" [label = \"ε\"];\n";
-                    countafn+=1;
-                    connect += afin+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    //connect += eini+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                }
-                case "*" -> {
-                    countafn+=2;
-                    connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    int eini=countafn-2;
-                    int aini=countafn-1;
-                    
-                    connect += aini+"->"+hder.generateCodAFND(connect,countafn);
-                    int afin=countafn-1;
-                    connect += afin+"->"+aini+" [label = \"ε\"];\n";
-                    countafn+=1;
-                    connect += afin+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    connect += eini+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                }
-                case "?" -> {
-                    countafn+=2;
-                    connect += (countafn-2)+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    int eini=countafn-2;
-                    int aini=countafn-1;
-                    
-                    connect += aini+"->"+hder.generateCodAFND(connect,countafn);
-                    int afin=countafn-1;
-                    //connect += afin+"->"+aini+" [label = \"ε\"];\n";
-                    countafn+=1;
-                    connect += afin+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                    connect += eini+"->"+(countafn-1)+" [label = \"ε\"];\n";
-                }*/
             }
-        }else{
-            etiqueta = idcount+"i"+"->"+(idcount)+"f"+" [label = \""+val.replace("\\", "\\\\").replace("\"", "\\\"")+"\"];\n";
+            case "|" -> {
+                if(hizq.hder == null && hder.hder == null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+idcount+"2 [label=\"ε\"];\n"+idcount+"2 -> "+idcount+"3 [label=\""+hizq.val+"\"];\n"+idcount+"3 -> "+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"1 -> "+idcount+"5 [label=\"ε\"];\n"+idcount+"5 -> "+idcount+"6 [label=\""+hder.val+"\"];\n"+idcount+"6 -> "+idcount+"4 [label=\"ε\"];\n"+idcount+"4 ->";
+                    if(self){
+                        etiqueta = etiqueta + idcount+"4 -> "+idcount+"1 [label=\"ε\"];\n";
+                    }
+                }else if(hizq.hder != null && hder.hder == null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+hizq.generateCodAFND(false)+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"1 -> "+idcount+"5 [label=\"ε\"];\n"+idcount+"5 -> "+idcount+"6 [label=\""+hder.val+"\"];\n"+idcount+"6 -> "+idcount+"4 [label=\"ε\"];\n"+idcount+"4 ->";
+                    if(self){
+                        etiqueta = etiqueta + idcount+"4 -> "+idcount+"1 [label=\"ε\"];\n";
+                    }
+                }else if(hizq.hder == null && hder.hder != null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+idcount+"2 [label=\"ε\"];\n"+idcount+"2 -> "+idcount+"3 [label=\""+hizq.val+"\"];\n"+idcount+"3 -> "+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"1 -> "+hizq.generateCodAFND(false)+"4 [label=\"ε\"];\n"+idcount+"4 ->";
+                    if(self){
+                        etiqueta = etiqueta + idcount+"4 -> "+idcount+"1 [label=\"ε\"];\n";
+                    }
+                }else{
+                    etiqueta = etiqueta + hizq.generateCodAFND(false);
+                    etiqueta = etiqueta + hder.generateCodAFND(false);
+                }
+                
+            }
+            case "*" -> {
+                if(hder.hder == null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+idcount+"2 [label=\"ε\"];\n"+idcount+"2 -> "+idcount+"3 [label=\""+hder.val+"\"];\n"+idcount+"3 -> "+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"3 -> "+idcount+"2 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"1 -> "+idcount+"4 [label=\"ε\"];\n";
+                }else{
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+hder.generateCodAFND(true)+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"1 -> "+idcount+"4 [label=\"ε\"];\n";
+                }
+            }
+            case "+" -> {
+                if(hder.hder == null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+idcount+"2 [label=\"ε\"];\n"+idcount+"2 -> "+idcount+"3 [label=\""+hder.val+"\"];\n"+idcount+"3 -> "+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"3 -> "+idcount+"2 [label=\"ε\"];\n";
+                }else{
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+hder.generateCodAFND(true)+idcount+"4 [label=\"ε\"];\n";
+                }
+            }
+            case "?" -> {
+                if(hder.hder == null){
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+idcount+"2 [label=\"ε\"];\n"+idcount+"2 -> "+idcount+"3 [label=\""+hder.val+"\"];\n"+idcount+"3 -> "+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"1 -> "+idcount+"4 [label=\"ε\"];\n";
+                }else{
+                    etiqueta = etiqueta + idcount+"1 [label=\"ε\"];\n"+idcount+"1 -> "+hder.generateCodAFND(false)+idcount+"4 [label=\"ε\"];\n";
+                    etiqueta = etiqueta + idcount+"1 -> "+idcount+"4 [label=\"ε\"];\n";
+                }
+            }
         }
+
         
         
-        return "";
+        return etiqueta;
     }
     
     public String getCodeAFND(){
-        String str = generateCodAFND();
-        String code = "node [shape=doublecircle]";
-        code += ";\nnode [shape=circle];";
+        String str = "";
+        if(val.equals("*") || val.equals("+")){
+            str = generateCodAFND(true);
+        }else{
+            str = generateCodAFND(false);
+        }
+        String code = "node [shape=doublecircle label=\"\"]";
+        code += ";\nnode [shape=circle label=\"\"]; 0";
         code += str;
         
         return """
@@ -214,11 +230,13 @@ public class Node {
                node [fontname="Helvetica,Arial,sans-serif"]
                edge [fontname="Helvetica,Arial,sans-serif"]
                rankdir=LR;
+               -1->
                """ +
 		code +
-		"}";
+		"0 [label=\"ε\"];\n}";
     }
-
+*/
+    
     @Override
     public String toString() {
         if (this.hizq == null && this.hder == null){
