@@ -115,6 +115,7 @@ public class ListNodes {
         nexts.clear();
         status.clear();
         countStatus = 0;
+        stsafnd.clear();
     }
     
     //------------------------METODO PARA GRAFICAR SIGUIENTES-------------------------------------------

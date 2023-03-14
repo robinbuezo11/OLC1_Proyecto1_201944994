@@ -7,7 +7,8 @@ package Analyzers;
 
 import Logic.*;
 import Gui.*;
-import java.util.LinkedList;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
 
@@ -338,7 +339,7 @@ class CUP$parser$actions {
             String last = String.valueOf(idstatus);
             String firs;
             String las;
-            Node newfinal = new Node(null,null,"#",parser.contID,parser.idstatus,"N",first,last,true);
+            Node newfinal = new Node(null,null,"#",parser.contID,parser.idstatus,"N",first,last,true,0,0);
             MainWindow.nodes.add(newfinal);
             parser.contID++;
             if(val.getVoidable()=="A"){
@@ -347,7 +348,7 @@ class CUP$parser$actions {
                 firs = val.getFirst();
             }
                 las = newfinal.getLast();
-            Node newroot = new Node(val,newfinal,".",parser.contID,0,"N",firs,las,false);
+            Node newroot = new Node(val,newfinal,".",parser.contID,0,"N",firs,las,false,0,0);
             MainWindow.nodes.add(newroot);
             parser.raiz = newroot;
             String pathtree = "src/main/java/ARBOLES_201944994/";
@@ -359,10 +360,13 @@ class CUP$parser$actions {
             String pathafd = "src/main/java/AFD_201944994/";
             ManagerFile.graphCode(a, pathafd, MainWindow.nodes.getCodeAFD());
             String pathafnd = "src/main/java/AFND_201944994/";
+            /*
             if(newroot.getHizq()!=null){
                 ManagerFile.graphCode(a, pathafnd, newroot.getHizq().getCodeAFND());
             }
-
+            */
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+String.valueOf(MainWindow.nodes.stsafnd));
+            
             idstatus=1;
             MainWindow.nodes.clearAll();
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+val.toString()+d);
@@ -414,8 +418,27 @@ class CUP$parser$actions {
             }
             String first = a.getFirst() +","+ b.getFirst();
             String last = a.getLast() +","+ b.getLast();
+
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(a.getAfni(),"ε");
+            ai.nexts.put(b.getAfni(),"ε");
+
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts.put(af.getId(),"ε");
+            MainWindow.nodes.stsafnd.get(b.getAfnf()).nexts.put(af.getId(),"ε");
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
             
-            Node newor = new Node(a,b,"|",parser.contID,0,voi,first,last,false);
+            Node newor = new Node(a,b,"|",parser.contID,0,voi,first,last,false,ai.getId(),af.getId());
             MainWindow.nodes.add(newor);
             parser.contID++;
             RESULT = newor;
@@ -454,8 +477,13 @@ class CUP$parser$actions {
             }else{
                 last=b.getLast();
             }
+
+            // -------------------- Código para AFND -----------------------------------
+            NodeAFND bf = MainWindow.nodes.stsafnd.remove(b.getAfnf());
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts=bf.nexts;
+            //----------------------------------------------------------------------------
             
-            Node newconcat = new Node(a,b,".",parser.contID,0,voi,first,last,false);
+            Node newconcat = new Node(a,b,".",parser.contID,0,voi,first,last,false,a.getAfni(),b.getAfnf());
             MainWindow.nodes.add(newconcat);
             parser.contID++;
             RESULT = newconcat;
@@ -476,7 +504,25 @@ class CUP$parser$actions {
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newsum = new Node(null,a,"+",parser.contID,0,"N",first,last,false);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(a.getAfni(),"ε");
+
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts.put(af.getId(),"ε");
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts.put(a.getAfni(),"ε");
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newsum = new Node(null,a,"+",parser.contID,0,"N",first,last,false,ai.getId(),af.getId());
             MainWindow.nodes.add(newsum);
             parser.contID++;
             RESULT = newsum;
@@ -497,7 +543,26 @@ class CUP$parser$actions {
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newmult = new Node(null,a,"*",parser.contID,0,"A",first,last,false);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(a.getAfni(),"ε");
+            ai.nexts.put(af.getId(),"ε");
+
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts.put(af.getId(),"ε");
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts.put(a.getAfni(),"ε");
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newmult = new Node(null,a,"*",parser.contID,0,"A",first,last,false,ai.getId(),af.getId());
             MainWindow.nodes.add(newmult);
             parser.contID++;
             RESULT = newmult;
@@ -518,7 +583,25 @@ class CUP$parser$actions {
             String first=a.getFirst();
             String last=a.getLast();
 
-            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last,false);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(a.getAfni(),"ε");
+            ai.nexts.put(af.getId(),"ε");
+
+            MainWindow.nodes.stsafnd.get(a.getAfnf()).nexts.put(af.getId(),"ε");
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newquestion = new Node(null,a,"?",parser.contID,0,"A",first,last,false,ai.getId(),af.getId());
             MainWindow.nodes.add(newquestion);
             parser.contID++;
             RESULT = newquestion;
@@ -539,7 +622,22 @@ class CUP$parser$actions {
             String first=String.valueOf(idstatus);
             String last=String.valueOf(idstatus);
 
-            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(af.getId(),val);
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newseter = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true,ai.getId(),af.getId());
             MainWindow.nodes.add(newseter);
             parser.idstatus++;
             parser.contID++;
@@ -561,7 +659,22 @@ class CUP$parser$actions {
             String first=String.valueOf(idstatus);
             String last=String.valueOf(idstatus);
 
-            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last,true);
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
+
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(af.getId(),val);
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newidseter = new Node(null,null,val.replace("{","").replace("}",""),parser.contID,parser.idstatus,"N",first,last,true,ai.getId(),af.getId());
             MainWindow.nodes.add(newidseter);
             parser.idstatus++;
             parser.contID++;
@@ -582,8 +695,23 @@ class CUP$parser$actions {
 		
             String first=String.valueOf(idstatus);
             String last=String.valueOf(idstatus);
+            
+            // -------------------- Código para AFND -----------------------------------
+            TreeMap<Integer,String> ainexts = new TreeMap<>();
+            NodeAFND ai = new NodeAFND(countAFND, ainexts);
+            parser.countAFND++;
 
-            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true);
+            TreeMap<Integer,String> afnexts = new TreeMap<>();
+            NodeAFND af = new NodeAFND(countAFND, afnexts);
+            parser.countAFND++;
+
+            ai.nexts.put(af.getId(),val);
+
+            MainWindow.nodes.stsafnd.add(ai.getId(),ai);
+            MainWindow.nodes.stsafnd.add(af.getId(),af);
+            //----------------------------------------------------------------------------
+
+            Node newspcset = new Node(null,null,val,parser.contID,parser.idstatus,"N",first,last,true,ai.getId(),af.getId());
             MainWindow.nodes.add(newspcset);
             parser.idstatus++;
             parser.contID++;

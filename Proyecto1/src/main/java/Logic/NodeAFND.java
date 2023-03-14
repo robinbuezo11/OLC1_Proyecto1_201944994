@@ -13,7 +13,7 @@ public class NodeAFND {
     public int id;
     public TreeMap<Integer,String> nexts;
 
-    public NodeAFND(int id, String val, TreeMap<Integer,String> nexts) {
+    public NodeAFND(int id, TreeMap<Integer,String> nexts) {
         this.id = id;
         this.nexts = nexts;
     }
