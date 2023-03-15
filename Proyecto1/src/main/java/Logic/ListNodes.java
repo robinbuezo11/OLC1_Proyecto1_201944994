@@ -114,6 +114,7 @@ public class ListNodes {
         nodes.clear();
         nexts.clear();
         status.clear();
+        stsafnd.clear();
         countStatus = 0;
         stsafnd.clear();
     }
@@ -234,6 +235,36 @@ public class ListNodes {
             }
         }
         accept += ";\nnode [shape=circle];";
+        
+        //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+String.valueOf(status)+"\n");
+        
+        return """
+               digraph G {
+               fontname="Helvetica,Arial,sans-serif"
+               node [fontname="Helvetica,Arial,sans-serif"]
+               edge [fontname="Helvetica,Arial,sans-serif"]
+               rankdir=LR;
+               """ +
+		accept +
+                connect +
+		"}";
+        
+    }
+    
+        //-------------------------------METODO PARA GRAFICAR AFND--------------------------------------------------
+    public String getCodeAFND(){
+        String accept = "node [shape=doublecircle label=\"\"]";
+        String connect = "\n";
+        for(NodeAFND node: stsafnd){
+            for(Entry<Integer,String> next : node.nexts.entrySet()){
+                if ("#".equals(next.getValue())){
+                    accept += " "+next.getKey();
+                }else{
+                    connect += node.id+"->"+next.getKey()+" [label = \""+next.getValue().replace("\\", "\\\\").replace("\"", "\\\"")+"\"];\n";
+                }
+            }
+        }
+        accept += ";\nnode [shape=circle label=\"\"];";
         
         //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+String.valueOf(status)+"\n");
         
