@@ -252,7 +252,7 @@ public class ListNodes {
     
         //-------------------------------METODO PARA GRAFICAR AFND--------------------------------------------------
     public String getCodeAFND(){
-        String accept = "node [shape=doublecircle]";
+        String accept = "node [shape=doublecircle label=\"\"]";
         String connect = "\n";
         for(NodeAFND node: stsafnd){
             for(Entry<Integer,String> next : node.nexts.entrySet()){
@@ -263,7 +263,7 @@ public class ListNodes {
                 }
             }
         }
-        accept += ";\nnode [shape=circle];";
+        accept += ";\nnode [shape=circle label=\"\"];";
         
         //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+String.valueOf(status)+"\n");
         
