@@ -21,6 +21,10 @@ public class Node {
     private int afni;
     private int afnf;
 
+    //---------------------------------------------------------------------------------------------------------------------
+    //--------------------------             CONSTRUCTOR INICIAL DEL NODO                            ----------------------
+    //---------------------------------------------------------------------------------------------------------------------
+    
 //    public Node(Node hizq, Node hder, String val, int idcount, int id, String voidable, String first, String last, boolean isleaf) {
 //        this.hizq = hizq;
 //        this.hder = hder;
@@ -46,10 +50,23 @@ public class Node {
         this.afni = afni;
         this.afnf = afnf;
     }
-    
-    
-    
 
+    public int getAfni() {
+        return afni;
+    }
+
+    public void setAfni(int afni) {
+        this.afni = afni;
+    }
+
+    public int getAfnf() {
+        return afnf;
+    }
+
+    public void setAfnf(int afnf) {
+        this.afnf = afnf;
+    }
+    
     public boolean isIsleaf() {
         return isleaf;
     }
@@ -151,7 +168,10 @@ public class Node {
         return etiqueta;
     }
 
-/*
+/*  ---------------------------------------------------------------------------------------------------------------------
+    ----------------             INTENTO INICIAL PARA GENERAR EL AFND (NO FUNCIONÓ)                           -----------
+    ---------------------------------------------------------------------------------------------------------------------
+
     private String generateCodAFND(boolean self){
         String etiqueta="";
         switch (val) {
@@ -259,6 +279,11 @@ public class Node {
 		str +
 		"0 [label=\"ε\"];\n}";
     }
+    
+    
+    ---------------------------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------------------------------------------------------------------
 */
     
     @Override
