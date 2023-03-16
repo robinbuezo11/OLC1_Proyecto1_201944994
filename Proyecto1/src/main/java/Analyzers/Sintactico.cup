@@ -25,6 +25,8 @@ start with INIT;
 
 INIT ::= obracke FIRSTPART separator STATEMENTS cbracke {:
             MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"¡Análisis finalizado!\n"); 
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.conjs.toString());
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.compares.toString());
         :};
 
 FIRSTPART ::= CONJS ERS
@@ -40,6 +42,11 @@ STATEMENTS ::= STATEMENTS STATEMENT
             | STATEMENT;
 
 CONJ ::= R_conj:a colon:b id:c dash:d greather:e set_er:f semicolon:g {:
+            if(f.matches(".+~.+")){
+                MainWindow.er.conjs.put(c,"["+f.replace("~","-").replaceAll("[ \t\r]","")+"]");
+            }else{
+                MainWindow.er.conjs.put(c,"["+f.replaceAll("[ \t\r,]","")+"]");
+            }
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d+e+f+g);
         :};
 
@@ -92,6 +99,7 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
 STATEMENT ::= id:a colon:b str:c semicolon:d{:
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
+            MainWindow.er.compares.put(a,c.substring(1,c.length()-1));
         :};
 
 NOTATION ::= or NOTATION:a NOTATION:b {:

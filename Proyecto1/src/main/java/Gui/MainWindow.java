@@ -20,6 +20,7 @@ public class MainWindow extends javax.swing.JFrame {
     private ManagerFile mfile;
     public static ListNodes nodes;
     public static ListErrors errors;
+    public static Regex er;
     /**
      * Creates new form MainWindow
      */
@@ -29,6 +30,7 @@ public class MainWindow extends javax.swing.JFrame {
         generateAnalysisTools();
         nodes = new ListNodes();
         errors = new ListErrors();
+        er = new Regex();
     }
 
     /**

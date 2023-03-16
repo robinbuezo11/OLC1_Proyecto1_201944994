@@ -205,6 +205,8 @@ class CUP$parser$actions {
               String RESULT =null;
 		
             MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"¡Análisis finalizado!\n"); 
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.conjs.toString());
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.compares.toString());
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INIT",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -308,6 +310,11 @@ class CUP$parser$actions {
 		int gright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String g = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
+            if(f.matches(".+~.+")){
+                MainWindow.er.conjs.put(c,"["+f.replace("~","-").replaceAll("[ \t\r]","")+"]");
+            }else{
+                MainWindow.er.conjs.put(c,"["+f.replaceAll("[ \t\r,]","")+"]");
+            }
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d+e+f+g);
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("CONJ",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -401,6 +408,7 @@ class CUP$parser$actions {
 		
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
+            MainWindow.er.compares.put(a,c.substring(1,c.length()-1));
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("STATEMENT",6, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
