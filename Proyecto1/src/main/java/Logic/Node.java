@@ -167,6 +167,26 @@ public class Node {
         }
         return etiqueta;
     }
+    
+    public String getCodER(){
+        String etiqueta="";
+    
+        if(hizq==null && hder==null){
+            etiqueta += val;
+        }
+        else if(hizq==null && hder!=null) {
+            etiqueta += "("+hder.getCodER()+")"+val;
+        }else{
+            if(hizq!=null){
+                etiqueta += "("+hizq.getCodER()+")";
+            }
+            etiqueta += val;
+            if(hder!=null){
+                etiqueta += "("+hder.getCodER()+")";
+            }
+        }
+        return etiqueta;
+    }
 
 /*  ---------------------------------------------------------------------------------------------------------------------
     ----------------             INTENTO INICIAL PARA GENERAR EL AFND (NO FUNCIONÓ)                           -----------

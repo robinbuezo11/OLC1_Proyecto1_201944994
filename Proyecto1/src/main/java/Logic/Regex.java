@@ -5,6 +5,8 @@
 package Logic;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  *
@@ -13,11 +15,20 @@ import java.util.HashMap;
 public class Regex {
     public HashMap<String, String> conjs;
     public HashMap<String, String> ers;
-    public HashMap<String, String> compares;
+    public HashMap<String, LinkedList<String>> compares;
 
     public Regex() {
         this.conjs = new HashMap<>();
         this.ers = new HashMap<>();
         this.compares = new HashMap<>();
+    }
+    
+    public boolean existsKeyInCompares(String key){
+        for(Map.Entry<String, LinkedList<String>> e: compares.entrySet()){
+            if(e.getKey().equals(key)){
+                return true;
+            }
+        }
+        return false;
     }
 }

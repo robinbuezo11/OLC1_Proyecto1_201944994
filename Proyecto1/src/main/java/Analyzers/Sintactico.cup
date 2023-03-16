@@ -2,6 +2,7 @@ package Analyzers;
 import Logic.*;
 import Gui.*;
 import java.util.TreeMap;
+import java.util.LinkedList;
 import java_cup.runtime.*;
 
 parser code{:
@@ -89,6 +90,7 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
             }
             */
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+MainWindow.nodes.stsafnd.toString());
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.getCodER()+"\n");
             
             idstatus=1;
             countAFND=0;
@@ -99,7 +101,13 @@ ER ::= id:a dash:b greather:c NOTATION:val semicolon:d{:
 STATEMENT ::= id:a colon:b str:c semicolon:d{:
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
-            MainWindow.er.compares.put(a,c.substring(1,c.length()-1));
+            if(MainWindow.er.existsKeyInCompares(a)){
+                MainWindow.er.compares.get(a).add(c.substring(1,c.length()-1));
+            }else{
+                LinkedList<String> list = new LinkedList<>();
+                list.add(c.substring(1,c.length()-1));
+                MainWindow.er.compares.put(a,list);
+            }
         :};
 
 NOTATION ::= or NOTATION:a NOTATION:b {:

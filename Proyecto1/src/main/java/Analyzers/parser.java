@@ -8,6 +8,7 @@ package Analyzers;
 import Logic.*;
 import Gui.*;
 import java.util.TreeMap;
+import java.util.LinkedList;
 import java_cup.runtime.*;
 import java_cup.runtime.XMLElement;
 
@@ -379,6 +380,7 @@ class CUP$parser$actions {
             }
             */
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+MainWindow.nodes.stsafnd.toString());
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.getCodER()+"\n");
             
             idstatus=1;
             countAFND=0;
@@ -408,7 +410,13 @@ class CUP$parser$actions {
 		
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+a+b+c+d);
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+c+" es una str_er");
-            MainWindow.er.compares.put(a,c.substring(1,c.length()-1));
+            if(MainWindow.er.existsKeyInCompares(a)){
+                MainWindow.er.compares.get(a).add(c.substring(1,c.length()-1));
+            }else{
+                LinkedList<String> list = new LinkedList<>();
+                list.add(c.substring(1,c.length()-1));
+                MainWindow.er.compares.put(a,list);
+            }
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("STATEMENT",6, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
