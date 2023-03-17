@@ -183,12 +183,12 @@ public class ManagerFile {
         }
     }
     
-    public static void writeErrors(String nombre, String path, String code){
+    public static void createFile(String nombre, String path,String extension, String code){
         
         FileWriter fichero = null;
         PrintWriter pw;
         try{
-            fichero = new FileWriter(path+nombre+".html",StandardCharsets.UTF_8);
+            fichero = new FileWriter(path+nombre+extension,StandardCharsets.UTF_8);
             pw = new PrintWriter(fichero);
             pw.print(code);
         }catch(IOException e){

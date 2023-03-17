@@ -21,6 +21,7 @@ public class MainWindow extends javax.swing.JFrame {
     public static ListNodes nodes;
     public static ListErrors errors;
     public static Regex er;
+    private boolean existsautomatons;
     /**
      * Creates new form MainWindow
      */
@@ -31,6 +32,7 @@ public class MainWindow extends javax.swing.JFrame {
         nodes = new ListNodes();
         errors = new ListErrors();
         er = new Regex();
+        existsautomatons = false;
     }
 
     /**
@@ -180,7 +182,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_opgenautomatonActionPerformed
 
     private void opanalyzeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opanalyzeActionPerformed
-        
+        analyzeERS();
     }//GEN-LAST:event_opanalyzeActionPerformed
 
     //-------------------METODO PARA ABRIR UN NUEVO ARCHIVO------------------------------------   
@@ -189,6 +191,10 @@ public class MainWindow extends javax.swing.JFrame {
             if(JOptionPane.showConfirmDialog(this, "¿Desea Guardar el Archivo?", "Guardar", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) save();
             txtpanel.setText("");
             this.setTitle("ExRegan USAC");
+        }
+        if(existsautomatons){
+            er.clearAll();
+            existsautomatons=false;
         }
     }
     
@@ -255,11 +261,12 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    //------------------------METODO PARA ANALIZAR ENTRADAS------------------------------------
+    //------------------------METODO PARA GENERAR AUTOMATAS------------------------------------
     private void generateAutomatons(){
         try{
             nodes.clearAll();
             errors.clear();
+            er.clearAll();
             String data = txtpanel.getText();
             Analyzers.parser parse;
             parse = new Analyzers.parser(new Analyzers.Lexico(new StringReader(data)));
@@ -268,8 +275,23 @@ public class MainWindow extends javax.swing.JFrame {
             LinkedList<String> err = MainWindow.errors.getCodeErrors();
             String patherror = "src/main/java/ERRORES_201944994/";
             if(err.getFirst()!="Y"){
-                ManagerFile.writeErrors("Errores", patherror, err.getLast());
+                ManagerFile.createFile("Errores", patherror, ".html", err.getLast());
                 txtconsole.setText(txtconsole.getText()+"ERRORES EN EL ANÁLISIS"+"\n");
+            }
+            existsautomatons=true;
+        }catch(Exception e){
+            txtconsole.setText(txtconsole.getText()+e.toString()+"\n");
+        }
+    }
+    
+    //------------------------METODO PARA ANALIZAR ENTRADAS------------------------------------
+    private void analyzeERS(){
+        try{
+            if(existsautomatons){
+                String pathouts = "src/main/java/SALIDAS_201944994/";
+                ManagerFile.createFile("Salidas", pathouts, ".json", er.analyzeERS());
+            }else{
+                JOptionPane.showMessageDialog(this, "Primero debe generar los autómatas", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }catch(Exception e){
             txtconsole.setText(txtconsole.getText()+e.toString()+"\n");

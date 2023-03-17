@@ -206,8 +206,12 @@ class CUP$parser$actions {
               String RESULT =null;
 		
             MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"¡Análisis finalizado!\n"); 
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.conjs.toString());
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.compares.toString());
+            /*
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.conjs.toString()+"\n");
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.compares.toString()+"\n");
+            MainWindow.er.setConjs();
+            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+MainWindow.er.ers.toString()+"\n");
+            */
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("INIT",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -374,13 +378,15 @@ class CUP$parser$actions {
             String pathafnd = "src/main/java/AFND_201944994/";
             ManagerFile.graphCode(a, pathafnd, MainWindow.nodes.getCodeAFND());
 
+            MainWindow.er.ers.put(a, val.getCodER());
+
             /*
             if(newroot.getHizq()!=null){
                 ManagerFile.graphCode(a, pathafnd, newroot.getHizq().getCodeAFND());
             }
             */
             //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+MainWindow.nodes.stsafnd.toString());
-            MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+"\n"+val.getCodER()+"\n");
+            //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+val.getCodER()+"\n");
             
             idstatus=1;
             countAFND=0;

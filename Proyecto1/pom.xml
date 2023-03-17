@@ -16,6 +16,11 @@
             <artifactId>Cup</artifactId>
             <version>11b</version>
         </dependency>
+        <dependency>
+            <groupId>JSON</groupId>
+            <artifactId>Json-Simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -170,19 +170,37 @@ public class Node {
     
     public String getCodER(){
         String etiqueta="";
+        String val = this.val;
+        if(val.equals(".")){
+            val="";
+        }else if(val.matches("\".\"")){
+            val=val.replace("\"", "");
+        }
     
         if(hizq==null && hder==null){
             etiqueta += val;
         }
         else if(hizq==null && hder!=null) {
-            etiqueta += "("+hder.getCodER()+")"+val;
+            if(hder.hder==null){
+                etiqueta += hder.getCodER()+val;
+            }else{
+                etiqueta += "("+hder.getCodER()+")"+val;
+            }
         }else{
             if(hizq!=null){
-                etiqueta += "("+hizq.getCodER()+")";
+                if(hizq.hder==null){
+                    etiqueta += hizq.getCodER();
+                }else{
+                    etiqueta += "("+hizq.getCodER()+")";
+                }
             }
             etiqueta += val;
             if(hder!=null){
-                etiqueta += "("+hder.getCodER()+")";
+                if(hder.hder==null){
+                    etiqueta += hder.getCodER();
+                }else{
+                    etiqueta += "("+hder.getCodER()+")";
+                }
             }
         }
         return etiqueta;
