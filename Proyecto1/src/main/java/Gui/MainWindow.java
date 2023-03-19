@@ -59,6 +59,9 @@ public class MainWindow extends javax.swing.JFrame {
         opgenautomaton = new javax.swing.JMenuItem();
         opanalyze = new javax.swing.JMenuItem();
         menuhelp = new javax.swing.JMenu();
+        opuserm = new javax.swing.JMenuItem();
+        optechm = new javax.swing.JMenuItem();
+        ophelp = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ExRegan USAC");
@@ -141,6 +144,21 @@ public class MainWindow extends javax.swing.JFrame {
         menubar.add(menuaction);
 
         menuhelp.setText("Ayuda");
+
+        opuserm.setText("Manual de Usuario");
+        menuhelp.add(opuserm);
+
+        optechm.setText("Manual Técnico");
+        menuhelp.add(optechm);
+
+        ophelp.setText("Acerca de");
+        ophelp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ophelpActionPerformed(evt);
+            }
+        });
+        menuhelp.add(ophelp);
+
         menubar.add(menuhelp);
 
         setJMenuBar(menubar);
@@ -184,6 +202,11 @@ public class MainWindow extends javax.swing.JFrame {
     private void opanalyzeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opanalyzeActionPerformed
         analyzeERS();
     }//GEN-LAST:event_opanalyzeActionPerformed
+
+    private void ophelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ophelpActionPerformed
+        String txt = "Desarrollador: Robin Omar Buezo Díaz\nCarné: 201944994\nCurso: Organización de Lenguajes y Compiladores 1";
+        JOptionPane.showMessageDialog(this, txt, "Acerca De", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_ophelpActionPerformed
 
     //-------------------METODO PARA ABRIR UN NUEVO ARCHIVO------------------------------------   
     private void newText(){
@@ -309,10 +332,13 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu menuhelp;
     private javax.swing.JMenuItem opanalyze;
     private javax.swing.JMenuItem opgenautomaton;
+    private javax.swing.JMenuItem ophelp;
     private javax.swing.JMenuItem opnew;
     private javax.swing.JMenuItem opopen;
     private javax.swing.JMenuItem opsave;
     private javax.swing.JMenuItem opsaveas;
+    private javax.swing.JMenuItem optechm;
+    private javax.swing.JMenuItem opuserm;
     private javax.swing.JPanel paneltext;
     private javax.swing.JScrollPane scrollconsole;
     private javax.swing.JScrollPane scrolltext;
