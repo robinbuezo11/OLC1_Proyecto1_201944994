@@ -4,6 +4,7 @@
  */
 package Logic;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,8 +20,8 @@ import javax.swing.JOptionPane;
  * @author Robin
  */
 public class ManagerFile {
-    File file;
-    ArrayList<String> data;
+    private File file;
+    private ArrayList<String> data;
 
     public ManagerFile(File file) {
         this.file = file;
@@ -183,12 +184,12 @@ public class ManagerFile {
         }
     }
     
-    public static void createFile(String nombre, String path,String extension, String code){
+    public static void createFile(String nombre, String path,String ext, String code){
         
         FileWriter fichero = null;
         PrintWriter pw;
         try{
-            fichero = new FileWriter(path+nombre+extension,StandardCharsets.UTF_8);
+            fichero = new FileWriter(path+nombre+ext,StandardCharsets.UTF_8);
             pw = new PrintWriter(fichero);
             pw.print(code);
         }catch(IOException e){
@@ -201,6 +202,16 @@ public class ManagerFile {
             }catch(IOException ex){
                 Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+ex.toString()+"\n");
             }
+        }
+    }
+    
+    //------------------------METODO PARA EJECUTAR UN ARCHIVO------------------------------------
+    public void exeFile(String path){
+        try{
+            File openfile = new File(path);
+            Desktop.getDesktop().open(openfile);
+        }catch(IOException e){
+            Gui.MainWindow.txtconsole.setText(Gui.MainWindow.txtconsole.getText()+e.toString()+"\n");
         }
     }
     

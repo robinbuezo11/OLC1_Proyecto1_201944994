@@ -5,6 +5,7 @@
 package Gui;
 
 import Logic.*;
+import java.awt.HeadlessException;
 import java.io.StringReader;
 import java.util.LinkedList;
 import javax.swing.JFileChooser;
@@ -146,9 +147,19 @@ public class MainWindow extends javax.swing.JFrame {
         menuhelp.setText("Ayuda");
 
         opuserm.setText("Manual de Usuario");
+        opuserm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opusermActionPerformed(evt);
+            }
+        });
         menuhelp.add(opuserm);
 
         optechm.setText("Manual Técnico");
+        optechm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optechmActionPerformed(evt);
+            }
+        });
         menuhelp.add(optechm);
 
         ophelp.setText("Acerca de");
@@ -207,6 +218,16 @@ public class MainWindow extends javax.swing.JFrame {
         String txt = "Desarrollador: Robin Omar Buezo Díaz\nCarné: 201944994\nCurso: Organización de Lenguajes y Compiladores 1";
         JOptionPane.showMessageDialog(this, txt, "Acerca De", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_ophelpActionPerformed
+
+    private void opusermActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opusermActionPerformed
+        String path = "Docs/User.pdf";
+        mfile.exeFile(path);
+    }//GEN-LAST:event_opusermActionPerformed
+
+    private void optechmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optechmActionPerformed
+        String path = "Docs/Tech.pdf";
+        mfile.exeFile(path);
+    }//GEN-LAST:event_optechmActionPerformed
 
     //-------------------METODO PARA ABRIR UN NUEVO ARCHIVO------------------------------------   
     private void newText(){
@@ -316,7 +337,7 @@ public class MainWindow extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(this, "Primero debe generar los autómatas", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
-        }catch(Exception e){
+        }catch(HeadlessException e){
             txtconsole.setText(txtconsole.getText()+e.toString()+"\n");
         }
     }
