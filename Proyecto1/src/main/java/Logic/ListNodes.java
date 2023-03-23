@@ -61,7 +61,7 @@ public class ListNodes {
                     
                     //-----------------SIGUIENTES PARA LA TABLA DE TRANSICIONES CON LEXEMAS REPETIDOS--------------------------
                     //---------------------------------------------------------------------------------------------------------
-                    if(nextsts.containsKey(getValueOfNodeByKey(s))){
+                    /*if(nextsts.containsKey(getValueOfNodeByKey(s))){
                         for(String n: next){
                             if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
                                 nextsts.get(getValueOfNodeByKey(s)).add(n);
@@ -74,7 +74,7 @@ public class ListNodes {
                                 nextsts.get(getValueOfNodeByKey(s)).add(n);
                             }
                         }
-                    }
+                    }*/
                     //---------------------------------------------------------------------------------------------------------
                     //---------------------------------------------------------------------------------------------------------
                 }
@@ -103,7 +103,7 @@ public class ListNodes {
                     }
                     //-----------------SIGUIENTES PARA LA TABLA DE TRANSICIONES CON LEXEMAS REPETIDOS--------------------------
                     //---------------------------------------------------------------------------------------------------------
-                    if(nextsts.containsKey(getValueOfNodeByKey(s))){
+                    /*if(nextsts.containsKey(getValueOfNodeByKey(s))){
                         for(String n: next){
                             if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
                                 nextsts.get(getValueOfNodeByKey(s)).add(n);
@@ -116,7 +116,7 @@ public class ListNodes {
                                 nextsts.get(getValueOfNodeByKey(s)).add(n);
                             }
                         }
-                    }
+                    }*/
                     //---------------------------------------------------------------------------------------------------------
                     //---------------------------------------------------------------------------------------------------------
                 }
@@ -145,7 +145,7 @@ public class ListNodes {
                     }
                     //-----------------SIGUIENTES PARA LA TABLA DE TRANSICIONES CON LEXEMAS REPETIDOS--------------------------
                     //---------------------------------------------------------------------------------------------------------
-                    if(nextsts.containsKey(getValueOfNodeByKey(s))){
+                    /*if(nextsts.containsKey(getValueOfNodeByKey(s))){
                         for(String n: next){
                             if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
                                 nextsts.get(getValueOfNodeByKey(s)).add(n);
@@ -158,7 +158,7 @@ public class ListNodes {
                                 nextsts.get(getValueOfNodeByKey(s)).add(n);
                             }
                         }
-                    }
+                    }*/
                     //---------------------------------------------------------------------------------------------------------
                     //---------------------------------------------------------------------------------------------------------
                 }
