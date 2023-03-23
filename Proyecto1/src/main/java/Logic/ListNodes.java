@@ -220,6 +220,16 @@ public class ListNodes {
     private void addStatus(LinkedList<String> nodes){
         for(String n: nodes){
             int i = Integer.parseInt(n);
+            LinkedList<String> nxts = new LinkedList<>();
+            for(String nxt: nodes){
+                int nx = Integer.parseInt(nxt);
+                if(getValueOfNodeByKey(i).equals(getValueOfNodeByKey(nx))){
+                    nxts.addAll(nexts.get(nx));
+                }
+            }
+            //Eliminar duplicados ir ordenar la lista nxts
+            
+            
             if(!status.containsValue(nextsts.get(getValueOfNodeByKey(i))) && nextsts.get(getValueOfNodeByKey(i))!=null){
                 countStatus+=1;
                 status.put("S"+countStatus, nextsts.get(getValueOfNodeByKey(i)));
