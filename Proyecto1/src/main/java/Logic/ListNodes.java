@@ -18,6 +18,7 @@ public class ListNodes {
     private LinkedList<Node> nodes;
     private TreeMap<Integer, LinkedList<String>> nexts;
     private TreeMap<String, LinkedList<String>> status;
+    private TreeMap<String, LinkedList<String>> nextsts;
     public LinkedList<NodeAFND> stsafnd;
     private int countStatus;
     
@@ -26,6 +27,7 @@ public class ListNodes {
         this.nexts = new TreeMap<>();
         this.status = new TreeMap<>();
         this.stsafnd = new LinkedList<>();
+        this.nextsts = new TreeMap<>();
         this.countStatus = 0;
     }
 
@@ -56,6 +58,25 @@ public class ListNodes {
                             }
                         }
                     }
+                    
+                    //-----------------SIGUIENTES PARA LA TABLA DE TRANSICIONES CON LEXEMAS REPETIDOS--------------------------
+                    //---------------------------------------------------------------------------------------------------------
+                    if(nextsts.containsKey(getValueOfNodeByKey(s))){
+                        for(String n: next){
+                            if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
+                                nextsts.get(getValueOfNodeByKey(s)).add(n);
+                            }
+                        }
+                    }else{
+                        nextsts.put(getValueOfNodeByKey(s), new LinkedList());
+                        for(String n: next){
+                            if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
+                                nextsts.get(getValueOfNodeByKey(s)).add(n);
+                            }
+                        }
+                    }
+                    //---------------------------------------------------------------------------------------------------------
+                    //---------------------------------------------------------------------------------------------------------
                 }
             }
             case "*" -> {
@@ -80,6 +101,24 @@ public class ListNodes {
                             }
                         }
                     }
+                    //-----------------SIGUIENTES PARA LA TABLA DE TRANSICIONES CON LEXEMAS REPETIDOS--------------------------
+                    //---------------------------------------------------------------------------------------------------------
+                    if(nextsts.containsKey(getValueOfNodeByKey(s))){
+                        for(String n: next){
+                            if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
+                                nextsts.get(getValueOfNodeByKey(s)).add(n);
+                            }
+                        }
+                    }else{
+                        nextsts.put(getValueOfNodeByKey(s), new LinkedList());
+                        for(String n: next){
+                            if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
+                                nextsts.get(getValueOfNodeByKey(s)).add(n);
+                            }
+                        }
+                    }
+                    //---------------------------------------------------------------------------------------------------------
+                    //---------------------------------------------------------------------------------------------------------
                 }
             }
             case "+" -> {
@@ -104,6 +143,24 @@ public class ListNodes {
                             }
                         }
                     }
+                    //-----------------SIGUIENTES PARA LA TABLA DE TRANSICIONES CON LEXEMAS REPETIDOS--------------------------
+                    //---------------------------------------------------------------------------------------------------------
+                    if(nextsts.containsKey(getValueOfNodeByKey(s))){
+                        for(String n: next){
+                            if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
+                                nextsts.get(getValueOfNodeByKey(s)).add(n);
+                            }
+                        }
+                    }else{
+                        nextsts.put(getValueOfNodeByKey(s), new LinkedList());
+                        for(String n: next){
+                            if(!nextsts.get(getValueOfNodeByKey(s)).contains(n)){
+                                nextsts.get(getValueOfNodeByKey(s)).add(n);
+                            }
+                        }
+                    }
+                    //---------------------------------------------------------------------------------------------------------
+                    //---------------------------------------------------------------------------------------------------------
                 }
             }
         }
@@ -147,6 +204,8 @@ public class ListNodes {
     }
     
     //------------------------METODO PARA AGREGAR ESTADOS--------------------------------------------------
+    
+    /*-----------------------ESTE FUE EL MÉTODO INICIAL QUE PERMITÍA AMBIGUEDAD----------------------------
     private void addStatus(LinkedList<String> nodes){
         for(String n: nodes){
             int i = Integer.parseInt(n);
@@ -157,12 +216,25 @@ public class ListNodes {
             }
         }
     }
+    ---------------------------------------------------------------------------------------------------------*/
+    private void addStatus(LinkedList<String> nodes){
+        for(String n: nodes){
+            int i = Integer.parseInt(n);
+            if(!status.containsValue(nextsts.get(getValueOfNodeByKey(i))) && nextsts.get(getValueOfNodeByKey(i))!=null){
+                countStatus+=1;
+                status.put("S"+countStatus, nextsts.get(getValueOfNodeByKey(i)));
+                addStatus(nextsts.get(getValueOfNodeByKey(i)));
+            }
+        }
+    }
     
     //------------------------METODO PARA GRAFICAR TRANSICIONES---------------------------------------------
     public String getCodeTransitions(){
         generateStatus();
         
-        String data = "n[label=<<table cellspacing=\"0\">\n<tr><td><b>Estado</b></td><td><b>Nodo</b></td><td><b>Terminal</b></td><td><b>Siguiente</b></td></tr>\n";
+        String data = "n[label=<<table cellspacing=\"0\">\n<tr><td><b>Estado</b></td><td><b>Terminal</b></td><td><b>Siguiente</b></td></tr>\n";
+        
+        /*-----------------------ESTE FUE EL MÉTODO INICIAL QUE PERMITÍA AMBIGUEDAD----------------------------
         for(Entry<String,LinkedList<String>> stat: status.entrySet()){
             for(String s : stat.getValue()){
                 if(nexts.get(Integer.valueOf(s))!=null){
@@ -186,6 +258,34 @@ public class ListNodes {
                         data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</td></tr>\n";
                     }else{
                         data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+s+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(s))))+"</td></tr>\n";
+                    }
+                }
+            }
+        }
+        ---------------------------------------------------------------------------------------------------------*/
+        for(Entry<String,LinkedList<String>> stat: status.entrySet()){
+            for(String s : stat.getValue()){
+                if(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))!=null){
+                    boolean acptstatus = false;
+                    boolean acptstn = false;
+                    for(String acpt: stat.getValue()){
+                        if ("#".equals(getValueOfNodeByKey(Integer.parseInt(acpt)))){
+                            acptstatus = true;
+                        }
+                    }
+                    for(String acptn: nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))){
+                        if ("#".equals(getValueOfNodeByKey(Integer.parseInt(acptn)))){
+                            acptstn = true;
+                        }
+                    }
+                    if (acptstatus && acptstn){
+                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</b></td></tr>\n";
+                    }else if(!acptstatus && acptstn){
+                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</b></td></tr>\n";
+                    }else if(acptstatus && !acptstn){
+                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</td></tr>\n";
+                    }else{
+                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</td></tr>\n";
                     }
                 }
             }
@@ -215,21 +315,21 @@ public class ListNodes {
                 if ("#".equals(getValueOfNodeByKey(Integer.parseInt(next)))){
                     accept += " "+stat.getKey();
                 }
-                if(!stat.getKey().equals(String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))) && same==true){
+                if(!stat.getKey().equals(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))))) && same==true){
                     same=!same;
                     connect+="\"];\n";
                 }
-                if(nexts.get(Integer.valueOf(next))!= null){
+                if(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next)))!= null){
                     if(!same){
-                        connect += stat.getKey()+"->"+String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))+" [label = \""+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
+                        connect += stat.getKey()+"->"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next)))))+" [label = \""+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
                     }else{
                         connect +="\\n"+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
                     }
                 }
-                if(stat.getKey().equals(String.valueOf(getKeyOfStatusByValue(nexts.get(Integer.valueOf(next))))) && same==false){
+                if(stat.getKey().equals(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))))) && same==false){
                     same=!same;
                 }
-                if(!same && nexts.get(Integer.valueOf(next))!= null){
+                if(!same && nextsts.get(getValueOfNodeByKey(Integer.parseInt(next)))!= null){
                     connect+="\"];\n";
                 }
             }
