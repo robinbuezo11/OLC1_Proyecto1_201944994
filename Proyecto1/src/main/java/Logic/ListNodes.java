@@ -5,10 +5,13 @@
 package Logic;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.TreeMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  *
@@ -174,6 +177,7 @@ public class ListNodes {
         stsafnd.clear();
         countStatus = 0;
         stsafnd.clear();
+        nextsts.clear();
     }
     
     //------------------------METODO PARA GRAFICAR SIGUIENTES-------------------------------------------
@@ -218,22 +222,28 @@ public class ListNodes {
     }
     ---------------------------------------------------------------------------------------------------------*/
     private void addStatus(LinkedList<String> nodes){
+        int id = countStatus;
         for(String n: nodes){
-            int i = Integer.parseInt(n);
-            LinkedList<String> nxts = new LinkedList<>();
-            for(String nxt: nodes){
-                int nx = Integer.parseInt(nxt);
-                if(getValueOfNodeByKey(i).equals(getValueOfNodeByKey(nx))){
-                    nxts.addAll(nexts.get(nx));
+            if(!"#".equals(getValueOfNodeByKey(Integer.parseInt(n)))){
+                int i = Integer.parseInt(n);
+                LinkedList<String> nxts = new LinkedList<>();
+                for(String nxt: nodes){
+                    int nx = Integer.parseInt(nxt);
+                    if(getValueOfNodeByKey(i).equals(getValueOfNodeByKey(nx)) && nexts.get(nx)!=null){
+                        nxts.addAll(nexts.get(nx));
+                    }
                 }
-            }
-            //Eliminar duplicados ir ordenar la lista nxts
-            
-            
-            if(!status.containsValue(nextsts.get(getValueOfNodeByKey(i))) && nextsts.get(getValueOfNodeByKey(i))!=null){
-                countStatus+=1;
-                status.put("S"+countStatus, nextsts.get(getValueOfNodeByKey(i)));
-                addStatus(nextsts.get(getValueOfNodeByKey(i)));
+                Set<String> duplicates = new LinkedHashSet<>(nxts);
+                nxts = new LinkedList<>(duplicates);
+                Collections.sort(nxts);
+
+                nextsts.put(getValueOfNodeByKey(i)+"S"+id, nxts);
+
+                if(!status.containsValue(nxts) && !nxts.isEmpty()){
+                    countStatus+=1;
+                    status.put("S"+countStatus, nxts);
+                    addStatus(nxts);
+                }
             }
         }
     }
@@ -274,8 +284,9 @@ public class ListNodes {
         }
         ---------------------------------------------------------------------------------------------------------*/
         for(Entry<String,LinkedList<String>> stat: status.entrySet()){
+            LinkedList<String> lex = new LinkedList<>();
             for(String s : stat.getValue()){
-                if(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))!=null){
+                if(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s))+stat.getKey())!=null && !lex.contains(getValueOfNodeByKey(Integer.parseInt(s)))){
                     boolean acptstatus = false;
                     boolean acptstn = false;
                     for(String acpt: stat.getValue()){
@@ -283,21 +294,22 @@ public class ListNodes {
                             acptstatus = true;
                         }
                     }
-                    for(String acptn: nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))){
+                    for(String acptn: nextsts.get(getValueOfNodeByKey(Integer.parseInt(s))+stat.getKey())){
                         if ("#".equals(getValueOfNodeByKey(Integer.parseInt(acptn)))){
                             acptstn = true;
                         }
                     }
                     if (acptstatus && acptstn){
-                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</b></td></tr>\n";
+                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s))+stat.getKey())))+"</b></td></tr>\n";
                     }else if(!acptstatus && acptstn){
-                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</b></td></tr>\n";
+                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td><b>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s))+stat.getKey())))+"</b></td></tr>\n";
                     }else if(acptstatus && !acptstn){
-                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</td></tr>\n";
+                        data += "<tr><td><b>"+stat.getKey()+String.valueOf(stat.getValue())+"</b></td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s))+stat.getKey())))+"</td></tr>\n";
                     }else{
-                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s)))))+"</td></tr>\n";
+                        data += "<tr><td>"+stat.getKey()+String.valueOf(stat.getValue())+"</td><td>"+getValueOfNodeByKey(Integer.parseInt(s))+"</td><td>"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(s))+stat.getKey())))+"</td></tr>\n";
                     }
                 }
+                lex.add(getValueOfNodeByKey(Integer.parseInt(s)));
             }
         }
         data+="</table>>]\n";
@@ -320,30 +332,38 @@ public class ListNodes {
         String accept = "node [shape=doublecircle]";
         String connect = "\n";
         for(Entry<String,LinkedList<String>> stat: status.entrySet()){
+            LinkedList<String> lex = new LinkedList<>();
             boolean same = false;
             for(String next : stat.getValue()){
-                if ("#".equals(getValueOfNodeByKey(Integer.parseInt(next)))){
-                    accept += " "+stat.getKey();
-                }
-                if(!stat.getKey().equals(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))))) && same==true){
-                    same=!same;
-                    connect+="\"];\n";
-                }
-                if(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next)))!= null){
-                    if(!same){
-                        connect += stat.getKey()+"->"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next)))))+" [label = \""+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
-                    }else{
-                        connect +="\\n"+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
+                if(!lex.contains(getValueOfNodeByKey(Integer.parseInt(next)))){
+                    if ("#".equals(getValueOfNodeByKey(Integer.parseInt(next)))){
+                        accept += " "+stat.getKey();
                     }
-                }
-                if(stat.getKey().equals(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))))) && same==false){
-                    same=!same;
-                }
-                if(!same && nextsts.get(getValueOfNodeByKey(Integer.parseInt(next)))!= null){
+                    if(!stat.getKey().equals(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))+stat.getKey()))) && same==true){
+                        same=!same;
+                        connect+="\"];\n";
+                    }
+                    if(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))+stat.getKey())!= null){
+                        if(!same){
+                            connect += stat.getKey()+"->"+String.valueOf(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))+stat.getKey())))+" [label = \""+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
+                        }else{
+                            connect +="\\n"+getValueOfNodeByKey(Integer.parseInt(next)).replace("\\", "\\\\").replace("\"", "\\\"");
+                        }
+                    }
+                    if(stat.getKey().equals(getKeyOfStatusByValue(nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))+stat.getKey()))) && same==false){
+                        same=!same;
+                    }
+                    if(!same && nextsts.get(getValueOfNodeByKey(Integer.parseInt(next))+stat.getKey())!= null){
+                        connect+="\"];\n";
+                    }
+                }else if(same){
+                    same = !same;
                     connect+="\"];\n";
                 }
+                lex.add(getValueOfNodeByKey(Integer.parseInt(next)));
             }
         }
+
         accept += ";\nnode [shape=circle];";
         
         //MainWindow.txtconsole.setText(MainWindow.txtconsole.getText()+String.valueOf(status)+"\n");
