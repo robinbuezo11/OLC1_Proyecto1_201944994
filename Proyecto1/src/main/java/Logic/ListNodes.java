@@ -6,6 +6,7 @@ package Logic;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.TreeMap;
 import java.util.LinkedList;
@@ -235,7 +236,8 @@ public class ListNodes {
                 }
                 Set<String> duplicates = new LinkedHashSet<>(nxts);
                 nxts = new LinkedList<>(duplicates);
-                Collections.sort(nxts);
+                
+                Collections.sort(nxts, (String num1, String num2) -> Integer.parseInt(num1) - Integer.parseInt(num2));
 
                 nextsts.put(getValueOfNodeByKey(i)+"S"+id, nxts);
 
